@@ -4,11 +4,11 @@
 --                - ZAEM -                 --
 --        -- https://t.me/zym_8 --         --
 ------------------------------------------------ 
-DevRio  = dofile("./ليبس/redis.lua").connect("127.0.0.1", 6379)
-serpent = dofile("./ليبس/serpent.lua")
-JSON    = dofile("./ليبس/dkjson.lua")
-json    = dofile("./ليبس/JSON.lua")
-URL     = dofile("./ليبس/url.lua")
+DevRio  = dofile("./besso/redis.lua").connect("127.0.0.1", 6379)
+serpent = dofile("./besso/serpent.lua")
+JSON    = dofile("./besso/dkjson.lua")
+json    = dofile("./besso/JSON.lua")
+URL     = dofile("./besso/url.lua")
 http    = require("socket.http") 
 HTTPS   = require("ssl.https") 
 https   = require("ssl.https") 
@@ -25,13 +25,6 @@ if not DevRio:get(Server.."IdZAEM") then
 io.write('\27[1;35m\nالان ارسل ايدي المطور الاساسي ↫ ⤈\n\27[0;33;49m') 
 local DevId = io.read():gsub(' ','') 
 if tostring(DevId):match('%d+') then 
-data,res = https.request("https:///Api/ZAEM/index.php?Ban=ZAEM&Info&Id="..DevId)
-if res == 200 then
-Abs = json:decode(data)
-if Abs.Result.Info == 'Is_Spam' then
-print('\27[1;31m┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉\nعذرا هذا الايدي محظور من تنصيب هذا السورس\n┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉') 
-os.execute('lua ZAEM.lua') 
-end ---ifBn
 if Abs.Result.Info == 'Ok' then
 io.write('\27[1;36mتم حفظ ايدي المطور الاساسي\n27[0;39;49m') 
 DevRio:set(Server.."IdZAEM",DevId) 
