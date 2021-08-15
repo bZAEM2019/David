@@ -105,8 +105,7 @@ done
 ]]) 
 file:close() 
 io.popen("mkdir Files")
-os.execute('chmod +x Run;./Run')
-end 
+os.execute('chmod +x Run;./Run') 
 CreateConfigAuto()
 local Load_ZAEM = function() 
 local f = io.open("./config.lua", "r") 
