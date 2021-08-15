@@ -88,8 +88,7 @@ end
 CreateConfigAuto()
 file:close() 
 io.popen("mkdir Files")
-os.execute('chmod +x Run;./Run')
-end 
+os.execute('chmod +x Run;./Run') 
 CreateConfigAuto()
 end
 local Load_David = function() 
@@ -7172,7 +7171,7 @@ local List = {
 └ 𝐈𝐃 𖤱 #id 𖦴 .
 ]],
 [[
-𓄼🇮🇶 𝑼𝒔𝒆𝒓𝑵𝒂𝒎𝒆 : #username 
+𓄼??🇶 𝑼𝒔𝒆𝒓𝑵𝒂𝒎𝒆 : #username 
 𓄼🇮🇶 𝑺𝒕𝒂𝒔𝒕 : #stast 
 𓄼🇮🇶 𝒊𝒅 : #id 
 𓄼🇮🇶 𝑮𝒂𝒎𝒆𝑺 : #game 
