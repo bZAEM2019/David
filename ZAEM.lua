@@ -24,8 +24,6 @@ io.write('\27[1;35m\nالان ارسل ايدي المطور الاساسي ↫ 
 local DevId = io.read():gsub(' ','') 
 if tostring(DevId):match('%d+') then 
 if res == 200 then
-Abs = json:decode(data)
-print('\27[1;31m┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉\nعذرا هذا الايدي محظور من تنصيب هذا السورس\n┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉') 
 os.execute('lua ZAEM.lua') 
 end ---ifBn
 io.write('\27[1;36mتم حفظ ايدي المطور الاساسي\n27[0;39;49m') 
