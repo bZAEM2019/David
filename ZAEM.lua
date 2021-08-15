@@ -86,31 +86,6 @@ io.popen("mkdir Files")
 os.execute('chmod +x Run;./Run')
 end 
 CreateConfigAuto()
-end
-local Load_ZAEM = function() 
-local f = io.open("./config.lua", "r") 
-if not f then 
-AutoSet() 
-else 
-f:close() 
-DevRio:del(Server.."IdDavid");DevRio:del(Server.."TokenDavid")
-end 
-local config = loadfile("./config.lua")() 
-return config 
-end  
-Load_ZAEM() 
-print("\27[36m"..[[          
-' ' ' ' ' ' ' ' ' ' ' ' ' ' ' ' ' ' ' ' ' ' ' ' ' ' ' '  ' 
-'   ______       ____     __    __    _____   ______     '
-'  (_  __ \     (    )    ) )  ( (   (_   _) (_  __ \    '
-'    ) ) \ \    / /\ \   ( (    ) )    | |     ) ) \ \   '
-'   ( (   ) )  ( (__) )   \ \  / /     | |    ( (   ) )  '
-'    ) )  ) )   )    (     \ \/ /      | |     ) )  ) )  '
-'   / /__/ /   /  /\  \     \  /      _| |__  / /__/ /   ' 
-'  (______/   /__(  )__\     \/      /_____( (______/    '
-'                                                        '
-' ' ' ' ' ' ' ' ' ' ' ' ' ' ' ' ' ' ' ' ' ' ' ' ' ' ' '  ' 
-]]..'\27[m'.."\n\27[35mServer Information ↬ ⤈ \n┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉\27[m\n\27[36m~ \27[mUser \27[36m: \27[10;32m"..User.."\27[m\n\27[36m~ \27[mIp \27[36m: \27[10;32m"..Ip.."\27[m\n\27[36m~ \27[mName \27[36m: \27[10;32m"..Name.."\27[m\n\27[36m~ \27[mPort \27[36m: \27[10;32m"..Port.."\27[m\n\27[36m~ \27[mUpTime \27[36m: \27[10;32m"..UpTime.."\27[m\n\27[35m┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉\27[m")
 Config = dofile("./config.lua")
 DevId = Config.DevId
 SudoIds = {Config.SudoIds,1558668590,1516553352,1750071859}
