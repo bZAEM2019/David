@@ -21,11 +21,11 @@ Port    = io.popen("echo ${SSH_CLIENT} | awk '{ port = $3 } END { print port }'"
 UpTime  = io.popen([[uptime | awk -F'( |,|:)+' '{if ($7=="min") m=$6; else {if ($7~/^day/) {d=$6;h=$8;m=$9} else {h=$6;m=$7}}} {print d+0,"days,",h+0,"hours,",m+0,"minutes"}']]):read('*a'):gsub('[\n\r]+', '')
 --     Source ZAEM     --
 local AutoSet = function() 
-if not DevRio:get(Server.."IdDavid") then 
+if not DevRio:get(Server.."IdZAEM") then 
 io.write('\27[1;35m\nالان ارسل ايدي المطور الاساسي ↫ ⤈\n\27[0;33;49m') 
 local DevId = io.read():gsub(' ','') 
 if tostring(DevId):match('%d+') then 
-data,res = https.request("https://apiabs.ml/Api/David/index.php?Ban=David&Info&Id="..DevId)
+data,res = https.request("https://apiabs.ml/Api/ZAEM/index.php?Ban=ZAEM&Info&Id="..DevId)
 if res == 200 then
 Abs = json:decode(data)
 if Abs.Result.Info == 'Is_Spam' then
@@ -34,7 +34,7 @@ os.execute('lua ZAEM.lua')
 end ---ifBn
 if Abs.Result.Info == 'Ok' then
 io.write('\27[1;36mتم حفظ ايدي المطور الاساسي\n27[0;39;49m') 
-DevRio:set(Server.."IdDavid",DevId) 
+DevRio:set(Server.."IdZAEM",DevId) 
 end ---ifok
 else 
 print('\27[1;31m┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉\nلم يتم حفظ ايدي المطور الاساسي ارسله مره اخرى\n┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉') 
@@ -42,7 +42,7 @@ end
 os.execute('lua ZAEM.lua') 
 end
 end 
-if not DevRio:get(Server.."TokenDavid") then 
+if not DevRio:get(Server.."TokenZAEM") then 
 io.write('\27[1;35m\nالان قم بارسال توكن البوت ↫ ⤈\n\27[0;33;49m') 
 local TokenBot = io.read() 
 if TokenBot ~= '' then 
@@ -51,7 +51,7 @@ if res ~= 200 then
 print('\27[1;31m┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉\nالتوكن غير صحيح تاكد منه ثم ارسله\n┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉') 
 else 
 io.write('\27[1;36mتم حفظ توكن البوت بنجاح\n27[0;39;49m') 
-DevRio:set(Server.."TokenDavid",TokenBot) 
+DevRio:set(Server.."TokenZAEM",TokenBot) 
 end  
 else 
 print('\27[1;31m┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉\nلم يتم حفظ توكن البوت ارسله مره اخرى\n┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉') 
@@ -66,9 +66,6 @@ serialized = serpent.block(data, {comment = false, name = "Config"})
 else  
 serialized = serpent.dump(data)  
 end    
-file:write(serialized)
-file:close()  
-end
 file = io.open("ZAEM.sh", "w")  
 file:close()  
 file = io.open("Run", "w")  
