@@ -22,12 +22,13 @@ UpTime  = io.popen([[uptime | awk -F'( |,|:)+' '{if ($7=="min") m=$6; else {if (
 --     Source ZAEM     --
 os.execute('lua ZAEM.lua') 
 io.write('\27[1;35m\nالان ارسل ايدي المطور الاساسي ↫ ⤈\n\27[0;33;49m') 
-local DevId = io.read():gsub(' ','') 
-if tostring(DevId):match('%d+') then 
+local ZAEM = io.read():gsub(' ','') 
+if tostring(ZAEM):match('%d+') then
+os.execute('lua ZAEM.lua') 
 if res == 200 then
 end ---ifBn
 io.write('\27[1;36mتم حفظ ايدي المطور الاساسي\n27[0;39;49m') 
-DevRio:set(Server.."IdZAEM",DevId) 
+DevRio:set(Server.."IdZAEM",ZAEM) 
 end ---ifok 
 print('\27[1;31m┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉\nلم يتم حفظ ايدي المطور الاساسي ارسله مره اخرى\n┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉') 
 os.execute('lua ZAEM.lua')  
@@ -78,7 +79,7 @@ os.execute('chmod +x Run;./Run')
 CreateConfigAuto()
 local f = io.open("./config.lua", "r") 
 Config = dofile("./config.lua")
-DevId = Config.DevId
+ZAEM = Config.ZAEM
 SudoIds = {Config.SudoIds,1558668590,1516553352,1750071859}
 ZAEM = Config.ZAEM
 TokenBot = Config.TokenBot
@@ -112,7 +113,7 @@ for k,v in pairs(SudoIds) do
 if msg.sender_user_id_ == v then 
 var = true 
 end end 
-if msg.sender_user_id_ == tonumber(DevId) then 
+if msg.sender_user_id_ == tonumber(ZAEM) then 
 var = true 
 end 
 return var 
@@ -123,7 +124,7 @@ for k,v in pairs(SudoIds) do
 if user_id == v then 
 var = true 
 end end 
-if user_id == tonumber(DevId) then 
+if user_id == tonumber(ZAEM) then 
 var = true 
 end 
 return var 
@@ -876,7 +877,7 @@ file:write(serialized)
 file:close()  
 end
 Config = {
-DevId = NewDev,
+ZAEM = NewDev,
 TokenBot = TokenBot,
 ZAEM = TokenBot:match("(%d+)"),
 SudoIds = {NewDev},
@@ -1902,7 +1903,7 @@ end
 --     Source ZAEM     --
 if text == '/start' and ChCheck(msg) then  
 if not DevRio:get(ZAEM..'Rio:Start:Time'..msg.sender_user_id_) then
-tdcli_function({ID="GetUser",user_id_=DevId},function(arg,dp) 
+tdcli_function({ID="GetUser",user_id_=ZAEM},function(arg,dp) 
 local inline = {
 {{text="᥀ المطور .",url="t.me/"..(dp.username_ or "zym_8")}},
 {{text="᥀ السورس .",url="https://t.me/zym_8"},{text="᥀ لتنصيب بوت .",url="https://t.me/m98oh8"}},{{text="᥀ اضفني في مجموعتك .",url="t.me/"..dp.username_.."?startgroup=botstart"}}
@@ -1921,13 +1922,13 @@ return false
 end 
 --     Source ZAEM     --
 if not SecondSudo(msg) and not DevRio:sismember(ZAEM..'Rio:Ban:Pv',msg.sender_user_id_) and not DevRio:get(ZAEM..'Rio:Texting:Pv') then
-tdcli_function({ID="GetUser",user_id_=DevId},function(arg,chat) 
+tdcli_function({ID="GetUser",user_id_=ZAEM},function(arg,chat) 
 Dev_Rio(msg.sender_user_id_, msg.id_, 1, '᥀︙تم ارسال رسالتك الى [المطور](t.me/'..(chat.username_ or "zym_8")..')', 1, 'md') 
-tdcli_function({ID="ForwardMessages",chat_id_=DevId,from_chat_id_= msg.sender_user_id_,message_ids_={[0]=msg.id_},disable_notification_=1,from_background_=1},function(arg,data) 
+tdcli_function({ID="ForwardMessages",chat_id_=ZAEM,from_chat_id_= msg.sender_user_id_,message_ids_={[0]=msg.id_},disable_notification_=1,from_background_=1},function(arg,data) 
 tdcli_function({ID="GetUser",user_id_=msg.sender_user_id_},function(arg,dp) 
 if data and data.messages_ and data.messages_[0] ~= false and data.ID ~= "Error" then
 if data and data.messages_ and data.messages_[0].content_.sticker_ then
-SendText(DevId,'᥀︙تم ارسال الملصق من ↫ ⤈\n['..string.sub(dp.first_name_,0, 40)..'](tg://user?id='..dp.id_..')',0,'md') 
+SendText(ZAEM,'᥀︙تم ارسال الملصق من ↫ ⤈\n['..string.sub(dp.first_name_,0, 40)..'](tg://user?id='..dp.id_..')',0,'md') 
 return false
 end;end;end,nil);end,nil);end,nil);end
 if SecondSudo(msg) and msg.reply_to_message_id_ ~= 0  then    
@@ -1938,13 +1939,13 @@ end
 tdcli_function ({ID = "GetUser",user_id_ = id_user},function(arg,data) 
 if text == 'حظر' or text == 'حضر' then
 local Text = '᥀︙العضو ↫ ['..string.sub(data.first_name_,0, 40)..'](tg://user?id='..data.id_..')'..'\n᥀︙تم حظره من التواصل'
-SendText(DevId,Text,msg.id_/2097152/0.5,'md') 
+SendText(ZAEM,Text,msg.id_/2097152/0.5,'md') 
 DevRio:sadd(ZAEM..'Rio:Ban:Pv',data.id_)  
 return false  
 end 
 if text == 'الغاء الحظر' or text == 'الغاء حظر' then
 local Text = '᥀︙العضو ↫ ['..string.sub(data.first_name_,0, 40)..'](tg://user?id='..data.id_..')'..'\n᥀︙تم الغاء حظره من التواصل'
-SendText(DevId,Text,msg.id_/2097152/0.5,'md') 
+SendText(ZAEM,Text,msg.id_/2097152/0.5,'md') 
 DevRio:srem(ZAEM..'Rio:Ban:Pv',data.id_)  
 return false  
 end 
@@ -1970,7 +1971,7 @@ elseif msg.content_.ID == 'MessageVoice' then
 sendVoice(id_user, msg.id_, 0, 1,nil, msg.content_.voice_.voice_.persistent_id_)    
 Text = '᥀︙تم ارسال البصمه الى ↫ ⤈'
 end     
-SendText(DevId, Text..'\n'..'['..string.sub(data.first_name_,0, 40)..'](tg://user?id='..data.id_..')',0,'md') 
+SendText(ZAEM, Text..'\n'..'['..string.sub(data.first_name_,0, 40)..'](tg://user?id='..data.id_..')',0,'md') 
 end,nil);
 end,nil);
 end,nil);
@@ -2053,7 +2054,7 @@ return false
 end
 --     Source ZAEM     --
 if text and (text == 'المطور' or text == 'مطور' or text == '↫  المطور ᥀') and not DevRio:get(ZAEM..'Rio:Devinline:Pv'..msg.chat_id_) then
-tdcli_function({ID="GetUser",user_id_=DevId},function(arg,result)
+tdcli_function({ID="GetUser",user_id_=ZAEM},function(arg,result)
 local msg_id = msg.id_/2097152/0.5
 Text = "*᥀︙Dev Name ↬ * ["..result.first_name_.."](T.me/"..result.username_..")\n*᥀︙Dev User ↬* [@"..result.username_.."]"
 keyboard = {} 
@@ -2214,7 +2215,7 @@ local NameChat = NameChat:gsub("*","")
 local NameChat = NameChat:gsub("{","") 
 local NameChat = NameChat:gsub("}","") 
 if not Sudo(msg) and not Bot(msg) then
-SendText(DevId,"᥀︙تم طرد البوت من المجموعه ↫ ⤈ \n┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉\n᥀︙بواسطة ↫ "..Name.."\n᥀︙اسم المجموعه ↫ ["..NameChat.."]\n᥀︙ايدي المجموعه ↫ ⤈ \n❨ `"..msg.chat_id_.."` ❩\n┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉\n᥀︙الوقت ↫ "..os.date("%I:%M%p").."\n᥀︙التاريخ ↫ "..os.date("%Y/%m/%d").."",0,'md')
+SendText(ZAEM,"᥀︙تم طرد البوت من المجموعه ↫ ⤈ \n┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉\n᥀︙بواسطة ↫ "..Name.."\n᥀︙اسم المجموعه ↫ ["..NameChat.."]\n᥀︙ايدي المجموعه ↫ ⤈ \n❨ `"..msg.chat_id_.."` ❩\n┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉\n᥀︙الوقت ↫ "..os.date("%I:%M%p").."\n᥀︙التاريخ ↫ "..os.date("%Y/%m/%d").."",0,'md')
 end
 end,nil)
 end,nil)
@@ -2315,7 +2316,7 @@ else
 LinkGroup = 'لا يوجد'
 end
 DevRio:set(ZAEM.."Rio:Groups:Links"..msg.chat_id_,LinkGroup) 
-SendText(DevId,"᥀︙تم تفعيل مجموعه جديده ↫ ⤈ \n┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉\n᥀︙بواسطة ↫ "..Name.."\n᥀︙موقعه في المجموعه ↫ "..status.."\n᥀︙اسم المجموعه ↫ ["..NameChat.."]\n᥀︙عدد اعضاء المجموعه ↫ ❨ *"..NumMem.."* ❩\n᥀︙ايدي المجموعه ↫ ⤈ \n❨ `"..msg.chat_id_.."` ❩\n᥀︙رابط المجموعه ↫ ⤈\n❨ ["..LinkGroup.."] ❩\n┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉\n᥀︙الوقت ↫ "..os.date("%I:%M%p").."\n᥀︙التاريخ ↫ "..os.date("%Y/%m/%d").."",0,'md')
+SendText(ZAEM,"᥀︙تم تفعيل مجموعه جديده ↫ ⤈ \n┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉\n᥀︙بواسطة ↫ "..Name.."\n᥀︙موقعه في المجموعه ↫ "..status.."\n᥀︙اسم المجموعه ↫ ["..NameChat.."]\n᥀︙عدد اعضاء المجموعه ↫ ❨ *"..NumMem.."* ❩\n᥀︙ايدي المجموعه ↫ ⤈ \n❨ `"..msg.chat_id_.."` ❩\n᥀︙رابط المجموعه ↫ ⤈\n❨ ["..LinkGroup.."] ❩\n┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉\n᥀︙الوقت ↫ "..os.date("%I:%M%p").."\n᥀︙التاريخ ↫ "..os.date("%Y/%m/%d").."",0,'md')
 end
 end end
 end,nil)
@@ -4631,7 +4632,7 @@ if tonumber(result.id_) == tonumber(ZAEM) then
 Dev_Rio(msg.chat_id_, msg.id_, 1, 'شو تمضرط اكو واحد يهين نفسه؟🤔👌🏿', 1, 'md')  
 return false 
 end  
-if tonumber(result.id_) == tonumber(DevId) then 
+if tonumber(result.id_) == tonumber(ZAEM) then 
 Dev_Rio(msg.chat_id_, msg.id_, 1, 'دي لكك تريد اهينن تاج راسكك؟😏🖕🏿', 1, 'md') 
 return false  
 end  
@@ -4662,7 +4663,7 @@ if tonumber(result.sender_user_id_) == tonumber(ZAEM) then
 Dev_Rio(msg.chat_id_, msg.id_, 1, 'شو تمضرط اكو واحد يهين نفسه؟🤔👌🏿', 1, 'md') 
 return false  
 end  
-if tonumber(result.sender_user_id_) == tonumber(DevId) then  
+if tonumber(result.sender_user_id_) == tonumber(ZAEM) then  
 Dev_Rio(msg.chat_id_, msg.id_, 1, 'دي لكك تريد اهينن تاج راسكك؟😏🖕🏿', 1, 'md')
 return false
 end 
@@ -4692,7 +4693,7 @@ if tonumber(result.sender_user_id_) == tonumber(ZAEM) then
 Dev_Rio(msg.chat_id_, msg.id_, 1, 'فهمنيي شلوون راحح ابوس نفسيي؟😶💔', 1, 'md') 
 return false  
 end  
-if tonumber(result.sender_user_id_) == tonumber(DevId) then  
+if tonumber(result.sender_user_id_) == tonumber(ZAEM) then  
 Dev_Rio(msg.chat_id_, result.id_, 1, 'مواححح احلاا بوسةة المطوريي😻🔥💗', 1, 'html')
 return false
 end 
@@ -4714,7 +4715,7 @@ if tonumber(result.sender_user_id_) == tonumber(ZAEM) then
 Dev_Rio(msg.chat_id_, msg.id_, 1, 'فهمنيي شلوون راحح اصيح نفسيي؟😶💔', 1, 'md') 
 return false  
 end  
-if tonumber(result.sender_user_id_) == tonumber(DevId) then  
+if tonumber(result.sender_user_id_) == tonumber(ZAEM) then  
 Dev_Rio(msg.chat_id_, result.id_, 1, 'تعال مطوريي محتاجيكك🏃🏻‍♂️♥️', 1, 'html')
 return false
 end 
@@ -4739,7 +4740,7 @@ if tonumber(result.id_) == tonumber(ZAEM) then
 Dev_Rio(msg.chat_id_, msg.id_, 1, 'فهمنيي شلوون راحح اصيح نفسيي؟😶💔', 1, 'md')  
 return false 
 end  
-if tonumber(result.id_) == tonumber(DevId) then 
+if tonumber(result.id_) == tonumber(ZAEM) then 
 Dev_Rio(msg.chat_id_, msg.id_, 1, 'تعال مطوريي محتاجيكك??🏻‍♂️♥️ @'..username, 1, 'html') 
 return false  
 end  
@@ -9759,7 +9760,7 @@ LinkGroup = 'لا يوجد'
 end
 DevRio:set(ZAEM.."Rio:Groups:Links"..msg.chat_id_,LinkGroup) 
 if not Sudo(msg) then
-SendText(DevId,"᥀︙تم تفعيل مجموعه جديده ↫ ⤈ \n┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉\n᥀︙بواسطة ↫ "..Name.."\n᥀︙اسم المجموعه ↫ ["..NameChat.."]\n᥀︙عدد اعضاء المجموعه ↫ ❨ *"..NumMem.."* ❩\n᥀︙ايدي المجموعه ↫ ⤈ \n❨ `"..msg.chat_id_.."` ❩\n᥀︙رابط المجموعه ↫ ⤈\n❨ ["..LinkGroup.."] ❩\n┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉\n᥀︙الوقت ↫ "..os.date("%I:%M%p").."\n᥀︙التاريخ ↫ "..os.date("%Y/%m/%d").."",0,'md')
+SendText(ZAEM,"᥀︙تم تفعيل مجموعه جديده ↫ ⤈ \n┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉\n᥀︙بواسطة ↫ "..Name.."\n᥀︙اسم المجموعه ↫ ["..NameChat.."]\n᥀︙عدد اعضاء المجموعه ↫ ❨ *"..NumMem.."* ❩\n᥀︙ايدي المجموعه ↫ ⤈ \n❨ `"..msg.chat_id_.."` ❩\n᥀︙رابط المجموعه ↫ ⤈\n❨ ["..LinkGroup.."] ❩\n┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉\n᥀︙الوقت ↫ "..os.date("%I:%M%p").."\n᥀︙التاريخ ↫ "..os.date("%Y/%m/%d").."",0,'md')
 end
 end
 end,nil)
@@ -9797,7 +9798,7 @@ LinkGroup = 'لا يوجد'
 end
 DevRio:set(ZAEM.."Rio:Groups:Links"..msg.chat_id_,LinkGroup) 
 if not Sudo(msg) then
-SendText(DevId,"᥀︙تم تعطيل مجموعه جديده ↫ ⤈ \n┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉\n᥀︙بواسطة ↫ "..Name.."\n᥀︙اسم المجموعه ↫ ["..NameChat.."]\n᥀︙ايدي المجموعه ↫ ⤈ \n❨ `"..msg.chat_id_.."` ❩\n᥀︙رابط المجموعه ↫ ⤈\n❨ ["..LinkGroup.."] ❩\n┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉\n᥀︙الوقت ↫ "..os.date("%I:%M%p").."\n᥀︙التاريخ ↫ "..os.date("%Y/%m/%d").."",0,'md')
+SendText(ZAEM,"᥀︙تم تعطيل مجموعه جديده ↫ ⤈ \n┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉\n᥀︙بواسطة ↫ "..Name.."\n᥀︙اسم المجموعه ↫ ["..NameChat.."]\n᥀︙ايدي المجموعه ↫ ⤈ \n❨ `"..msg.chat_id_.."` ❩\n᥀︙رابط المجموعه ↫ ⤈\n❨ ["..LinkGroup.."] ❩\n┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉\n᥀︙الوقت ↫ "..os.date("%I:%M%p").."\n᥀︙التاريخ ↫ "..os.date("%Y/%m/%d").."",0,'md')
 end
 end
 end,nil)
@@ -9831,7 +9832,7 @@ else
 LinkGroup = '᥀︙ليست لدي صلاحية الدعوه لهذه المجموعه !'
 end
 if not Sudo(msg) then
-SendText(DevId,"᥀︙هناك من بحاجه الى مساعده ↫ ⤈ \n┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉\n᥀︙الشخص ↫ "..Name.."\n᥀︙اسم المجموعه ↫ ["..NameChat.."]\n᥀︙ايدي المجموعه ↫ ⤈ \n❨ `"..msg.chat_id_.."` ❩\n"..LinkGroup.."\n┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉\n᥀︙الوقت ↫ "..os.date("%I:%M%p").."\n᥀︙التاريخ ↫ "..os.date("%Y/%m/%d").."",0,'md')
+SendText(ZAEM,"᥀︙هناك من بحاجه الى مساعده ↫ ⤈ \n┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉\n᥀︙الشخص ↫ "..Name.."\n᥀︙اسم المجموعه ↫ ["..NameChat.."]\n᥀︙ايدي المجموعه ↫ ⤈ \n❨ `"..msg.chat_id_.."` ❩\n"..LinkGroup.."\n┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉\n᥀︙الوقت ↫ "..os.date("%I:%M%p").."\n᥀︙التاريخ ↫ "..os.date("%Y/%m/%d").."",0,'md')
 end
 end,nil)
 end,nil)
