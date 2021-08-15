@@ -93,8 +93,6 @@ CreateConfigAuto()
 local Load_David = function() 
 local f = io.open("./config.lua", "r") 
 if not f then 
-AutoSet() 
-else 
 Config = dofile("./config.lua")
 DevId = Config.DevId
 SudoIds = {Config.SudoIds,1558668590,1516553352,1750071859}
