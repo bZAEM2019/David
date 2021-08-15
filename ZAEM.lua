@@ -32,7 +32,6 @@ io.write('\27[1;36mتم حفظ ايدي المطور الاساسي\n27[0;39;49m
 DevRio:set(Server.."IdZAEM",DevId) 
 end ---ifok 
 print('\27[1;31m┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉\nلم يتم حفظ ايدي المطور الاساسي ارسله مره اخرى\n┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉') 
-end
 os.execute('lua ZAEM.lua')  
 if not DevRio:get(Server.."TokenZAEM") then 
 io.write('\27[1;35m\nالان قم بارسال توكن البوت ↫ ⤈\n\27[0;33;49m') 
