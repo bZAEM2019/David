@@ -795,7 +795,6 @@ return var
 end
 end
 --     Source ZAEM     --
-function tdcli_update_callback(data)
 if (data.ID == "UpdateNewCallbackQuery") then
 local Chat_Id2 = data.chat_id_
 local MsgId2 = data.message_id_
