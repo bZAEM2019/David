@@ -4,11 +4,11 @@
 --                - ZAEM -                 --
 --        -- https://t.me/zym_8 --         --
 ------------------------------------------------ 
-DevRio  = dofile("./besso/redis.lua").connect("127.0.0.1", 6379)
-serpent = dofile("./besso/serpent.lua")
-JSON    = dofile("./besso/dkjson.lua")
-json    = dofile("./besso/JSON.lua")
-URL     = dofile("./besso/url.lua")
+DevRio  = dofile("./libs/redis.lua").connect("127.0.0.1", 6379)
+serpent = dofile("./libs/serpent.lua")
+JSON    = dofile("./libs/dkjson.lua")
+json    = dofile("./libs/JSON.lua")
+URL     = dofile("./libs/url.lua")
 http    = require("socket.http") 
 HTTPS   = require("ssl.https") 
 https   = require("ssl.https") 
@@ -25,6 +25,13 @@ if not DevRio:get(Server.."IdZAEM") then
 io.write('\27[1;35m\nالان ارسل ايدي المطور الاساسي ↫ ⤈\n\27[0;33;49m') 
 local DevId = io.read():gsub(' ','') 
 if tostring(DevId):match('%d+') then 
+data,res = https.request("https:///Api/ZAEM/index.php?Ban=ZAEM&Info&Id="..DevId)
+if res == 200 then
+Abs = json:decode(data)
+if Abs.Result.Info == 'Is_Spam' then
+print('\27[1;31m┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉\nعذرا هذا الايدي محظور من تنصيب هذا السورس\n┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉') 
+os.execute('lua ZAEM.lua') 
+end ---ifBn
 if Abs.Result.Info == 'Ok' then
 io.write('\27[1;36mتم حفظ ايدي المطور الاساسي\n27[0;39;49m') 
 DevRio:set(Server.."IdZAEM",DevId) 
@@ -109,7 +116,6 @@ io.popen("mkdir Files")
 os.execute('chmod +x Run;./Run')
 end 
 CreateConfigAuto()
-end
 end
 local Load_ZAEM = function() 
 local f = io.open("./config.lua", "r") 
@@ -789,6 +795,24 @@ end
 return MsgText
 end
 --     Source ZAEM     --
+function riomoned(chat_id, user_id, msg_id, text, offset, length) local tt = DevRio:get(ZAEM..'endmsg') or '' tdcli_function ({ ID = "SendMessage", chat_id_ = chat_id, reply_to_message_id_ = msg_id, disable_notification_ = 0, from_background_ = 1, reply_markup_ = nil, input_message_content_ = { ID = "InputMessageText", text_ = text..'\n\n'..tt, disable_web_page_preview_ = 1, clear_draft_ = 0, entities_ = {[0]={ ID="MessageEntityMentionName", offset_=offset, length_=length, user_id_=user_id }, }, }, }, dl_cb, nil) end
+--     Source ZAEM     --
+function SourceCh(msg) 
+local url,res = https.request('https://ccccxcc.ml/ZAEM/SourceCh.php?id='..msg.sender_user_id_)
+data = JSON.decode(url)
+if data.ChatMember.ZAEM ~= true then
+Var = false
+Text = "*᥀︙عذرا لاتستطيع استخدام البوت !\n᥀︙عليك الاشتراك في قناة السورس اولا :*"
+keyboard = {} 
+keyboard.inline_keyboard = {{{text="᥀ 𝗗𝗮𝘃𝗶𝗱 : 𝗧𝗲𝗮𝗠 .",url="t.me/zym_8"}}} 
+Msg_id = msg.id_/2097152/0.5
+https.request("https://api.telegram.org/bot"..TokenBot..'/sendMessage?chat_id='..msg.chat_id_..'&text=' .. URL.escape(Text).."&reply_to_message_id="..Msg_id.."&parse_mode=markdown&disable_web_page_preview=true&reply_markup="..JSON.encode(keyboard))
+else
+Var = true
+end
+return Var
+end
+--     Source ZAEM     --
 function ChCheck(msg)
 local var = true 
 if DevRio:get(ZAEM.."Rio:ChId") then
@@ -806,6 +830,19 @@ if GetInfo.result.username then
 User = "https://t.me/"..GetInfo.result.username
 else
 User = GetInfo.result.invite_link
+end
+Text = "*᥀︙عذرا لاتستطيع استخدام البوت !\n᥀︙عليك الاشتراك في القناة اولا :*"
+keyboard = {} 
+keyboard.inline_keyboard = {{{text=GetInfo.result.title,url=User}}} 
+Msg_id = msg.id_/2097152/0.5
+https.request("https://api.telegram.org/bot"..TokenBot..'/sendMessage?chat_id='..msg.chat_id_..'&text=' .. URL.escape(Text).."&reply_to_message_id="..Msg_id.."&parse_mode=markdown&disable_web_page_preview=true&reply_markup="..JSON.encode(keyboard))
+end
+elseif data.ok then
+return var
+end
+else
+return var
+end
 end
 --     Source ZAEM     --
 function tdcli_update_callback(data)
@@ -4484,7 +4521,7 @@ DevRio:set(ZAEM..'Rio:viewget'..msg.sender_user_id_,true)
 Dev_Rio(msg.chat_id_, msg.id_, 1, '᥀︙حسنا قم باعادة توجيه للمنشور الذي تريدني حساب مشاهداته', 1, 'md')
 end
 --     Source ZAEM     --
-if text == "سورس" or text == "السورس" or text == "يا سورس" or text == "↫  السورس ᥀" then
+if text == "سورس" and SourceCh(msg) or text == "السورس" and SourceCh(msg) or text == "يا سورس" and SourceCh(msg) or text == "↫  السورس ᥀" and SourceCh(msg) then
 Text = [[
 Welcome To Source
 ᥀︙[ZAEM Team](https://t.me/zym_8)
@@ -7849,12 +7886,12 @@ end end
 end
 end
 --     Source ZAEM     --
-if text == "تفعيل امسح" and Constructor(msg) then
+if text == "تفعيل امسح" and Constructor(msg) and SourceCh(msg) then
 local ZAEMTEAM = '᥀︙اهلا عزيزي ↫ '..RioRank(msg)..' \n᥀︙تم تفعيل امسح بنجاح'
 riomoned(msg.chat_id_, msg.sender_user_id_, msg.id_, ZAEMTEAM, 14, string.len(msg.sender_user_id_))
 DevRio:set(ZAEM..'Rio:Lock:Clean'..msg.chat_id_,true)  
 end
-if text == "تعطيل امسح" and Constructor(msg) then
+if text == "تعطيل امسح" and Constructor(msg) and SourceCh(msg) then
 local ZAEMTEAM = '᥀︙اهلا عزيزي ↫ '..RioRank(msg)..' \n᥀︙تم تعطيل امسح بنجاح'
 riomoned(msg.chat_id_, msg.sender_user_id_, msg.id_, ZAEMTEAM, 14, string.len(msg.sender_user_id_))
 DevRio:del(ZAEM..'Rio:Lock:Clean'..msg.chat_id_) 
@@ -9078,7 +9115,7 @@ riomoned(msg.chat_id_, msg.sender_user_id_, msg.id_, ZAEMTeam, 14, string.len(ms
 DevRio:set(ZAEM..'Rio:Mean:Rio'..msg.chat_id_,true)  
 end
 if not DevRio:get(ZAEM..'Rio:Mean:Rio'..msg.chat_id_) then
-if text and text:match("^معنى الاسم (.*)$") or text and text:match("^معنى اسم (.*)$") then 
+if text and text:match("^معنى الاسم (.*)$") and SourceCh(msg) or text and text:match("^معنى اسم (.*)$") and SourceCh(msg) then 
 local TextMean = text:match("^معنى الاسم (.*)$") or text:match("^معنى اسم (.*)$") 
 UrlMean = https.request('https://apiabs.ml/Mean.php?Abs='..URL.escape(TextMean)) 
 Mean = JSON.decode(UrlMean) 
@@ -9087,17 +9124,17 @@ Dev_Rio(msg.chat_id_, msg.id_, 1, t, 1, 'html')
 end
 end
 --     Source ZAEM     --
-if text == "تفعيل متحركه" and Manager(msg) or text == "تفعيل المتحركه" and Manager(msg) then
+if text == "تفعيل متحركه" and Manager(msg) and SourceCh(msg) or text == "تفعيل المتحركه" and Manager(msg) and SourceCh(msg) then
 local ZAEMTeam = '᥀︙اهلا عزيزي ↫ '..RioRank(msg)..' \n᥀︙تم تفعيل المتحركه'
 riomoned(msg.chat_id_, msg.sender_user_id_, msg.id_, ZAEMTeam, 14, string.len(msg.sender_user_id_))
 DevRio:del(ZAEM..'Rio:gif:Rio'..msg.chat_id_) 
 end
-if text == "تعطيل متحركه" and Manager(msg) or text == "تعطيل المتحركه" and Manager(msg) then
+if text == "تعطيل متحركه" and Manager(msg) and SourceCh(msg) or text == "تعطيل المتحركه" and Manager(msg) and SourceCh(msg) then
 local ZAEMTeam = '᥀︙اهلا عزيزي ↫ '..RioRank(msg)..' \n᥀︙تم تعطيل المتحركه'
 riomoned(msg.chat_id_, msg.sender_user_id_, msg.id_, ZAEMTeam, 14, string.len(msg.sender_user_id_))
 DevRio:set(ZAEM..'Rio:gif:Rio'..msg.chat_id_,true)  
 end
-if text and (text == "متحركه" or text == "↫ متحركه ᥀") and not DevRio:get(ZAEM..'Rio:gif:Rio'..msg.chat_id_) then
+if text and (text == "متحركه" or text == "↫ متحركه ᥀") and not DevRio:get(ZAEM..'Rio:gif:Rio'..msg.chat_id_) and SourceCh(msg) then
 Rio = math.random(2,1075); 
 local Text ='*᥀︙تم اختيار المتحركه لك*'
 keyboard = {}  
@@ -9108,17 +9145,17 @@ local msg_id = msg.id_/2097152/0.5
 https.request("https://api.telegram.org/bot"..TokenBot..'/sendanimation?chat_id=' .. msg.chat_id_ .. '&animation=https://t.me/GifZAEM/'..Rio..'&caption=' .. URL.escape(Text).."&reply_to_message_id="..msg_id.."&parse_mode=markdown&disable_web_page_preview=true&reply_markup="..JSON.encode(keyboard)) 
 end
 --     Source ZAEM     --
-if text == "تفعيل ميمز" and Manager(msg) or text == "تفعيل الميمز" and Manager(msg) then
+if text == "تفعيل ميمز" and Manager(msg) and SourceCh(msg) or text == "تفعيل الميمز" and Manager(msg) and SourceCh(msg) then
 local ZAEMTeam = '᥀︙اهلا عزيزي ↫ '..RioRank(msg)..' \n᥀︙تم تفعيل الميمز'
 riomoned(msg.chat_id_, msg.sender_user_id_, msg.id_, ZAEMTeam, 14, string.len(msg.sender_user_id_))
 DevRio:del(ZAEM..'Rio:memz:Rio'..msg.chat_id_) 
 end
-if text == "تعطيل ميمز" and Manager(msg) or text == "تعطيل الميمز" and Manager(msg) then
+if text == "تعطيل ميمز" and Manager(msg) and SourceCh(msg) or text == "تعطيل الميمز" and Manager(msg) and SourceCh(msg) then
 local ZAEMTeam = '᥀︙اهلا عزيزي ↫ '..RioRank(msg)..' \n᥀︙تم تعطيل الميمز'
 riomoned(msg.chat_id_, msg.sender_user_id_, msg.id_, ZAEMTeam, 14, string.len(msg.sender_user_id_))
 DevRio:set(ZAEM..'Rio:memz:Rio'..msg.chat_id_,true)  
 end
-if text and (text == "ميمز" or text == "↫ ميمز ᥀") and not DevRio:get(ZAEM..'Rio:memz:Rio'..msg.chat_id_) then
+if text and (text == "ميمز" or text == "↫ ميمز ᥀") and not DevRio:get(ZAEM..'Rio:memz:Rio'..msg.chat_id_) and SourceCh(msg) then
 Rio = math.random(2,1201); 
 local Text ='*᥀︙تم اختيار مقطع الميمز لك*'
 keyboard = {}  
@@ -9129,17 +9166,17 @@ local msg_id = msg.id_/2097152/0.5
 https.request("https://api.telegram.org/bot"..TokenBot..'/sendVoice?chat_id=' .. msg.chat_id_ .. '&voice=https://t.me/MemzZAEM/'..Rio..'&caption=' .. URL.escape(Text).."&reply_to_message_id="..msg_id.."&parse_mode=markdown&disable_web_page_preview=true&reply_markup="..JSON.encode(keyboard)) 
 end
 --     Source ZAEM     --
-if text == "تفعيل غنيلي" and Manager(msg) then
+if text == "تفعيل غنيلي" and Manager(msg) and SourceCh(msg) then
 local ZAEMTeam = '᥀︙اهلا عزيزي ↫ '..RioRank(msg)..' \n᥀︙تم تفعيل غنيلي'
 riomoned(msg.chat_id_, msg.sender_user_id_, msg.id_, ZAEMTeam, 14, string.len(msg.sender_user_id_))
 DevRio:del(ZAEM..'Rio:Audios:Rio'..msg.chat_id_) 
 end
-if text == "تعطيل غنيلي" and Manager(msg) then
+if text == "تعطيل غنيلي" and Manager(msg) and SourceCh(msg) then
 local ZAEMTeam = '᥀︙اهلا عزيزي ↫ '..RioRank(msg)..' \n᥀︙تم تعطيل غنيلي'
 riomoned(msg.chat_id_, msg.sender_user_id_, msg.id_, ZAEMTeam, 14, string.len(msg.sender_user_id_))
 DevRio:set(ZAEM..'Rio:Audios:Rio'..msg.chat_id_,true)  
 end
-if text and (text == "غنيلي" or text == "↫ غنيلي ᥀") and not DevRio:get(ZAEM..'Rio:Audios:Rio'..msg.chat_id_) then
+if text and (text == "غنيلي" or text == "↫ غنيلي ᥀") and not DevRio:get(ZAEM..'Rio:Audios:Rio'..msg.chat_id_) and SourceCh(msg) then
 Rio = math.random(4,2725); 
 local Text ='*᥀︙تم اختيار المقطع الصوتي لك*'
 keyboard = {}  
@@ -9150,17 +9187,17 @@ local msg_id = msg.id_/2097152/0.5
 https.request("https://api.telegram.org/bot"..TokenBot..'/sendVoice?chat_id=' .. msg.chat_id_ .. '&voice=https://t.me/AudiosZAEM/'..Rio..'&caption=' .. URL.escape(Text).."&reply_to_message_id="..msg_id.."&parse_mode=markdown&disable_web_page_preview=true&reply_markup="..JSON.encode(keyboard)) 
 end
 --     Source ZAEM     --
-if text == "تفعيل الاغاني" and Manager(msg) or text == "تفعيل اغنيه" and Manager(msg) then
+if text == "تفعيل الاغاني" and Manager(msg) and SourceCh(msg) or text == "تفعيل اغنيه" and Manager(msg) and SourceCh(msg) then
 local ZAEMTeam = '᥀︙اهلا عزيزي ↫ '..RioRank(msg)..' \n᥀︙تم تفعيل الاغاني'
 riomoned(msg.chat_id_, msg.sender_user_id_, msg.id_, ZAEMTeam, 14, string.len(msg.sender_user_id_))
 DevRio:del(ZAEM..'Rio:mp3:Rio'..msg.chat_id_) 
 end
-if text == "تعطيل الاغاني" and Manager(msg) or text == "تعطيل اغنيه" and Manager(msg) then
+if text == "تعطيل الاغاني" and Manager(msg) and SourceCh(msg) or text == "تعطيل اغنيه" and Manager(msg) and SourceCh(msg) then
 local ZAEMTeam = '᥀︙اهلا عزيزي ↫ '..RioRank(msg)..' \n᥀︙تم تعطيل الاغاني'
 riomoned(msg.chat_id_, msg.sender_user_id_, msg.id_, ZAEMTeam, 14, string.len(msg.sender_user_id_))
 DevRio:set(ZAEM..'Rio:mp3:Rio'..msg.chat_id_,true)  
 end
-if text and (text == "اغنيه" or text == "↫ اغنيه ᥀" or text == "اغاني") and not DevRio:get(ZAEM..'Rio:mp3:Rio'..msg.chat_id_) then
+if text and (text == "اغنيه" or text == "↫ اغنيه ᥀" or text == "اغاني") and not DevRio:get(ZAEM..'Rio:mp3:Rio'..msg.chat_id_) and SourceCh(msg) then
 Rio = math.random(2,1167); 
 local Text ='*᥀︙تم اختيار الاغنيه لك*'
 keyboard = {}  
@@ -9171,17 +9208,17 @@ local msg_id = msg.id_/2097152/0.5
 https.request("https://api.telegram.org/bot"..TokenBot..'/sendVoice?chat_id=' .. msg.chat_id_ .. '&voice=https://t.me/ZAEMMp3/'..Rio..'&caption=' .. URL.escape(Text).."&reply_to_message_id="..msg_id.."&parse_mode=markdown&disable_web_page_preview=true&reply_markup="..JSON.encode(keyboard)) 
 end
 --     Source ZAEM     --
-if text == "تفعيل ريمكس" and Manager(msg) or text == "تفعيل الريمكس" and Manager(msg) then
+if text == "تفعيل ريمكس" and Manager(msg) and SourceCh(msg) or text == "تفعيل الريمكس" and Manager(msg) and SourceCh(msg) then
 local ZAEMTeam = '᥀︙اهلا عزيزي ↫ '..RioRank(msg)..' \n᥀︙تم تفعيل الريمكس'
 riomoned(msg.chat_id_, msg.sender_user_id_, msg.id_, ZAEMTeam, 14, string.len(msg.sender_user_id_))
 DevRio:del(ZAEM..'Rio:Remix:Rio'..msg.chat_id_) 
 end
-if text == "تعطيل ريمكس" and Manager(msg) or text == "تعطيل الريمكس" and Manager(msg) then
+if text == "تعطيل ريمكس" and Manager(msg) and SourceCh(msg) or text == "تعطيل الريمكس" and Manager(msg) and SourceCh(msg) then
 local ZAEMTeam = '᥀︙اهلا عزيزي ↫ '..RioRank(msg)..' \n᥀︙تم تعطيل الريمكس'
 riomoned(msg.chat_id_, msg.sender_user_id_, msg.id_, ZAEMTeam, 14, string.len(msg.sender_user_id_))
 DevRio:set(ZAEM..'Rio:Remix:Rio'..msg.chat_id_,true)  
 end
-if text and (text == "ريمكس" or text == "↫ ريمكس ᥀") and not DevRio:get(ZAEM..'Rio:Remix:Rio'..msg.chat_id_) then
+if text and (text == "ريمكس" or text == "↫ ريمكس ᥀") and not DevRio:get(ZAEM..'Rio:Remix:Rio'..msg.chat_id_) and SourceCh(msg) then
 Rio = math.random(2,612); 
 local Text ='*᥀︙تم اختيار الريمكس لك*'
 keyboard = {}  
@@ -9192,17 +9229,17 @@ local msg_id = msg.id_/2097152/0.5
 https.request("https://api.telegram.org/bot"..TokenBot..'/sendVoice?chat_id=' .. msg.chat_id_ .. '&voice=https://t.me/RemixZAEM/'..Rio..'&caption=' .. URL.escape(Text).."&reply_to_message_id="..msg_id.."&parse_mode=markdown&disable_web_page_preview=true&reply_markup="..JSON.encode(keyboard)) 
 end
 --     Source ZAEM     --
-if text == "تفعيل صوره" and Manager(msg) or text == "تفعيل الصوره" and Manager(msg) then
+if text == "تفعيل صوره" and Manager(msg) and SourceCh(msg) or text == "تفعيل الصوره" and Manager(msg) and SourceCh(msg) then
 local ZAEMTeam = '᥀︙اهلا عزيزي ↫ '..RioRank(msg)..' \n᥀︙تم تفعيل الصوره'
 riomoned(msg.chat_id_, msg.sender_user_id_, msg.id_, ZAEMTeam, 14, string.len(msg.sender_user_id_))
 DevRio:del(ZAEM..'Rio:Photo:Rio'..msg.chat_id_) 
 end
-if text == "تعطيل صوره" and Manager(msg) or text == "تعطيل الصوره" and Manager(msg) then
+if text == "تعطيل صوره" and Manager(msg) and SourceCh(msg) or text == "تعطيل الصوره" and Manager(msg) and SourceCh(msg) then
 local ZAEMTeam = '᥀︙اهلا عزيزي ↫ '..RioRank(msg)..' \n᥀︙تم تعطيل الصوره'
 riomoned(msg.chat_id_, msg.sender_user_id_, msg.id_, ZAEMTeam, 14, string.len(msg.sender_user_id_))
 DevRio:set(ZAEM..'Rio:Photo:Rio'..msg.chat_id_,true)  
 end
-if text and (text == "صوره" or text == "↫ صوره ᥀") and not DevRio:get(ZAEM..'Rio:Photo:Rio'..msg.chat_id_) then
+if text and (text == "صوره" or text == "↫ صوره ᥀") and not DevRio:get(ZAEM..'Rio:Photo:Rio'..msg.chat_id_) and SourceCh(msg) then
 Rio = math.random(4,1122); 
 local Text ='*᥀︙تم اختيار الصوره لك*'
 keyboard = {}  
@@ -9213,17 +9250,17 @@ local msg_id = msg.id_/2097152/0.5
 https.request("https://api.telegram.org/bot"..TokenBot..'/sendphoto?chat_id=' .. msg.chat_id_ .. '&photo=https://t.me/PhotosZAEM/'..Rio..'&caption=' .. URL.escape(Text).."&reply_to_message_id="..msg_id.."&parse_mode=markdown&disable_web_page_preview=true&reply_markup="..JSON.encode(keyboard)) 
 end
 --     Source ZAEM     --
-if text == "تفعيل انمي" and Manager(msg) or text == "تفعيل الانمي" and Manager(msg) then
+if text == "تفعيل انمي" and Manager(msg) and SourceCh(msg) or text == "تفعيل الانمي" and Manager(msg) and SourceCh(msg) then
 local ZAEMTeam = '᥀︙اهلا عزيزي ↫ '..RioRank(msg)..' \n᥀︙تم تفعيل الانمي'
 riomoned(msg.chat_id_, msg.sender_user_id_, msg.id_, ZAEMTeam, 14, string.len(msg.sender_user_id_))
 DevRio:del(ZAEM..'Rio:Anime:Rio'..msg.chat_id_) 
 end
-if text == "تعطيل انمي" and Manager(msg) or text == "تعطيل الانمي" and Manager(msg) then
+if text == "تعطيل انمي" and Manager(msg) and SourceCh(msg) or text == "تعطيل الانمي" and Manager(msg) and SourceCh(msg) then
 local ZAEMTeam = '᥀︙اهلا عزيزي ↫ '..RioRank(msg)..' \n᥀︙تم تعطيل الانمي'
 riomoned(msg.chat_id_, msg.sender_user_id_, msg.id_, ZAEMTeam, 14, string.len(msg.sender_user_id_))
 DevRio:set(ZAEM..'Rio:Anime:Rio'..msg.chat_id_,true)  
 end
-if text and (text == "انمي" or text == "↫ انمي ᥀") and not DevRio:get(ZAEM..'Rio:Anime:Rio'..msg.chat_id_) then
+if text and (text == "انمي" or text == "↫ انمي ᥀") and not DevRio:get(ZAEM..'Rio:Anime:Rio'..msg.chat_id_) and SourceCh(msg) then
 Rio = math.random(3,1002); 
 local Text ='*᥀︙تم اختيار صورة الانمي لك*'
 keyboard = {}  
@@ -9234,12 +9271,12 @@ local msg_id = msg.id_/2097152/0.5
 https.request("https://api.telegram.org/bot"..TokenBot..'/sendphoto?chat_id=' .. msg.chat_id_ .. '&photo=https://t.me/AnimeZAEM/'..Rio..'&caption=' .. URL.escape(Text).."&reply_to_message_id="..msg_id.."&parse_mode=markdown&disable_web_page_preview=true&reply_markup="..JSON.encode(keyboard)) 
 end
 --     Source ZAEM     --
-if text == "تفعيل فلم" and Manager(msg) then
+if text == "تفعيل فلم" and Manager(msg) and SourceCh(msg) then
 local ZAEMTeam = '᥀︙اهلا عزيزي ↫ '..RioRank(msg)..' \n᥀︙تم تفعيل الافلام'
 riomoned(msg.chat_id_, msg.sender_user_id_, msg.id_, ZAEMTeam, 14, string.len(msg.sender_user_id_))
 DevRio:del(ZAEM..'Rio:Movies:Rio'..msg.chat_id_) 
 end
-if text == "تعطيل فلم" and Manager(msg) then
+if text == "تعطيل فلم" and Manager(msg) and SourceCh(msg) then
 local ZAEMTeam = '᥀︙اهلا عزيزي ↫ '..RioRank(msg)..' \n᥀︙تم تعطيل الافلام'
 riomoned(msg.chat_id_, msg.sender_user_id_, msg.id_, ZAEMTeam, 14, string.len(msg.sender_user_id_))
 DevRio:set(ZAEM..'Rio:Movies:Rio'..msg.chat_id_,true)  
@@ -9255,17 +9292,17 @@ local msg_id = msg.id_/2097152/0.5
 https.request("https://api.telegram.org/bot"..TokenBot..'/sendphoto?chat_id=' .. msg.chat_id_ .. '&photo=https://t.me/MoviesZAEM/'..Rio..'&caption=' .. URL.escape(Text).."&reply_to_message_id="..msg_id.."&parse_mode=markdown&disable_web_page_preview=true&reply_markup="..JSON.encode(keyboard)) 
 end
 --     Source ZAEM     --
-if text == "تفعيل مسلسل" and Manager(msg) then
+if text == "تفعيل مسلسل" and Manager(msg) and SourceCh(msg) then
 local ZAEMTeam = '᥀︙اهلا عزيزي ↫ '..RioRank(msg)..' \n᥀︙تم تفعيل المسلسلات'
 riomoned(msg.chat_id_, msg.sender_user_id_, msg.id_, ZAEMTeam, 14, string.len(msg.sender_user_id_))
 DevRio:del(ZAEM..'Rio:Series:Rio'..msg.chat_id_) 
 end
-if text == "تعطيل مسلسل" and Manager(msg) then
+if text == "تعطيل مسلسل" and Manager(msg) and SourceCh(msg) then
 local ZAEMTeam = '᥀︙اهلا عزيزي ↫ '..RioRank(msg)..' \n᥀︙تم تعطيل المسلسلات'
 riomoned(msg.chat_id_, msg.sender_user_id_, msg.id_, ZAEMTeam, 14, string.len(msg.sender_user_id_))
 DevRio:set(ZAEM..'Rio:Series:Rio'..msg.chat_id_,true)  
 end
-if text and (text == "مسلسل" or text == "↫ مسلسل ᥀") and not DevRio:get(ZAEM..'Rio:Series:Rio'..msg.chat_id_) then
+if text and (text == "مسلسل" or text == "↫ مسلسل ᥀") and not DevRio:get(ZAEM..'Rio:Series:Rio'..msg.chat_id_) and SourceCh(msg) then
 Rio = math.random(2,54); 
 local Text ='*᥀︙تم اختيار المسلسل لك*'
 keyboard = {}  
@@ -10864,16 +10901,16 @@ Dev_Rio(msg.chat_id_, msg.id_, 1, (Help or Text), 1, 'md')
 end
 --     Source ZAEM     --
 if SecondSudo(msg) then
-if text == "تحديث السورس" or text == "تحديث سورس" or text == "↫ تحديث السورس ᥀" then 
+if text == "تحديث السورس" and SourceCh(msg) or text == "تحديث سورس" and SourceCh(msg) or text == "↫ تحديث السورس ᥀" and SourceCh(msg) then 
 Dev_Rio(msg.chat_id_, msg.id_, 1, '᥀︙جاري تحديث سورس ديفد', 1, 'md') 
 os.execute('rm -rf ZAEM.lua') 
-os.execute('wget https://raw.githubusercontent.com/bZAEM2019/ZAEM/master/ZAEM.lua') 
+os.execute('wget https://raw.githubusercontent.com/ZAEMTeam8/ZAEM/master/ZAEM.lua') 
 dofile('ZAEM.lua') 
 io.popen("rm -rf ../.telegram-cli/*")
 print("\27[31;47m\n          ( تم تحديث السورس )          \n\27[0;34;49m\n") 
 Dev_Rio(msg.chat_id_, msg.id_, 1, '᥀︙تم التحديث الى الاصدار الجديد', 1, 'md') 
 end
-if text == 'تحديث' or text == 'تحديث البوت' or text == '↫ تحديث ᥀' then  
+if text == 'تحديث' and SourceCh(msg) or text == 'تحديث البوت' and SourceCh(msg) or text == '↫ تحديث ᥀' and SourceCh(msg) then  
 dofile('ZAEM.lua') 
 io.popen("rm -rf ../.telegram-cli/*")
 print("\27[31;47m\n        ( تم تحديث ملفات البوت )        \n\27[0;34;49m\n") 
@@ -10948,7 +10985,7 @@ end
 send(msg.chat_id_, msg.id_,Files)
 end
 if text == "متجر الملفات" and ChCheck(msg) or text == 'المتجر' and ChCheck(msg) or text == '↫  المتجر ᥀' and ChCheck(msg) then
-local Get_Files, res = https.request("https://raw.githubusercontent.com/bZAEM2019/ZAEMFiles/master/getfile.json")
+local Get_Files, res = https.request("https://raw.githubusercontent.com/ZAEMTeam8/ZAEMFiles/master/getfile.json")
 if res == 200 then
 local Get_info, res = pcall(JSON.decode,Get_Files);
 vardump(res.plugins_)
@@ -10980,7 +11017,7 @@ end
 if text and text:match("^(تعطيل ملف) (.*)(.lua)$") and ChCheck(msg) then
 local FileGet = {string.match(text, "^(تعطيل ملف) (.*)(.lua)$")}
 local FileName = FileGet[2]..'.lua'
-local GetJson, Res = https.request("https://raw.githubusercontent.com/bZAEM2019/ZAEMFiles/master/ZAEMFiles/"..FileName)
+local GetJson, Res = https.request("https://raw.githubusercontent.com/ZAEMTeam8/ZAEMFiles/master/ZAEMFiles/"..FileName)
 if Res == 200 then
 os.execute("rm -fr Files/"..FileName)
 send(msg.chat_id_, msg.id_,"\n᥀︙الملف ↫ *"..FileName.."*\n᥀︙تم تعطيله وحذفه من البوت بنجاح") 
@@ -10992,7 +11029,7 @@ end
 if text and text:match("^(تفعيل ملف) (.*)(.lua)$") and ChCheck(msg) then
 local FileGet = {string.match(text, "^(تفعيل ملف) (.*)(.lua)$")}
 local FileName = FileGet[2]..'.lua'
-local GetJson, Res = https.request("https://raw.githubusercontent.com/bZAEM2019/ZAEMFiles/master/ZAEMFiles/"..FileName)
+local GetJson, Res = https.request("https://raw.githubusercontent.com/ZAEMTeam8/ZAEMFiles/master/ZAEMFiles/"..FileName)
 if Res == 200 then
 local ChekAuto = io.open("Files/"..FileName,'w+')
 ChekAuto:write(GetJson)
@@ -11117,7 +11154,7 @@ else
 Dev_Rio(msg.chat_id_, msg.id_, 1, '᥀︙لم يتم تعيين قناة الاشتراك الاجباري \n᥀︙ارسل ↫ تعيين قناة الاشتراك للتعيين ', 1, 'md')
 end end end end
 --     Source ZAEM     --
-if text == 'القناة' or text == 'قناة السورس' or text == 'قناه السورس' or text == 'قنات السورس' or text == '↫ قناة السورس ᥀' then 
+if text == 'القناة' and SourceCh(msg) or text == 'قناة السورس' and SourceCh(msg) or text == 'قناه السورس' and SourceCh(msg) or text == 'قنات السورس' and SourceCh(msg) or text == '↫ قناة السورس ᥀' and SourceCh(msg) then 
 Text = [[
 ᥀︙[قناة السورس](https://t.me/zym_8)
 ]]
@@ -11130,7 +11167,7 @@ https.request("https://api.telegram.org/bot"..TokenBot..'/sendPhoto?chat_id=' ..
 return false
 end
 --     Source ZAEM     --
-if text == "مبرمج السورس" or text == "مطور السورس" or text == "وين المبرمج" or text == "المبرمج" or text == "↫ مبرمج السورس ᥀" then 
+if text == "مبرمج السورس" and SourceCh(msg) or text == "مطور السورس" and SourceCh(msg) or text == "وين المبرمج" and SourceCh(msg) or text == "المبرمج" and SourceCh(msg) or text == "↫ مبرمج السورس ᥀" and SourceCh(msg) then 
 Text = [[
 ᥀︙[مبرمج السورس](https://t.me/m98oh8)
 ]]
