@@ -69,29 +69,7 @@ TokenBot = DevRio:get(Server.."TokenZAEM"),
 ZAEM = DevRio:get(Server.."TokenZAEM"):match("(%d+)"),
 SudoIds = {DevRio:get(Server.."IdZAEM")},
 }
-Create(Config, "./config.lua") 
-file = io.open("ZAEM.sh", "w")  
-file:write([[
-#!/usr/bin/env bash
-cd $HOME/ZAEM
-token="]]..DevRio:get(Server.."TokenZAEM")..[["
-while(true) do
-rm -fr ../.telegram-cli
-if [ ! -f ./tg ]; then
-echo "┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉"
-echo "~ The tg File Was Not Found In The Bot Files!"
-echo "┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉"
-exit 1
-fi
-if [ ! $token ]; then
-echo "┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉"
-echo "~ The Token Was Not Found In The config.lua File!"
-echo "┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉"
-exit 1
-fi
-./tg -s ./ZAEM.lua -p PROFILE --bot=$token
-done
-]])  
+
 file:close()  
 file = io.open("Run", "w")  
 file:write([[
