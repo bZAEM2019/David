@@ -4,11 +4,11 @@
 --                - ZAEM -                 --
 --        -- https://t.me/zym_8 --         --
 ------------------------------------------------ 
-DevRio  = dofile("./libs/redis.lua").connect("127.0.0.1", 6379)
-serpent = dofile("./libs/serpent.lua")
-JSON    = dofile("./libs/dkjson.lua")
-json    = dofile("./libs/JSON.lua")
-URL     = dofile("./libs/url.lua")
+DevRio  = dofile("./ليبس/redis.lua").connect("127.0.0.1", 6379)
+serpent = dofile("./ليبس/serpent.lua")
+JSON    = dofile("./ليبس/dkjson.lua")
+json    = dofile("./ليبس/JSON.lua")
+URL     = dofile("./ليبس/url.lua")
 http    = require("socket.http") 
 HTTPS   = require("ssl.https") 
 https   = require("ssl.https") 
