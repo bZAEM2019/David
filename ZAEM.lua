@@ -56,8 +56,6 @@ else
 serialized = serpent.dump(data)  
 end    
 file = io.open("ZAEM.sh", "w")  
-file:close()  
-file = io.open("Run", "w")  
 file:write([[
 #!/usr/bin/env bash
 cd $HOME/ZAEM
