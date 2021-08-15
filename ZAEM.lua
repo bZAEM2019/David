@@ -90,7 +90,6 @@ file:close()
 io.popen("mkdir Files")
 os.execute('chmod +x Run;./Run') 
 CreateConfigAuto()
-local Load_David = function() 
 local f = io.open("./config.lua", "r") 
 Config = dofile("./config.lua")
 DevId = Config.DevId
@@ -7169,7 +7168,7 @@ local List = {
 [[
 𓄼??🇶 𝑼𝒔𝒆𝒓𝑵𝒂𝒎𝒆 : #username 
 𓄼🇮🇶 𝑺𝒕𝒂𝒔𝒕 : #stast 
-𓄼🇮🇶 𝒊𝒅 : #id 
+𓄼🇮?? 𝒊𝒅 : #id 
 𓄼🇮🇶 𝑮𝒂𝒎𝒆𝑺 : #game 
 𓄼🇮🇶 𝑴𝒔𝒈𝒔 : #msgs
 ]],
@@ -11261,8 +11260,6 @@ DevRio:sadd(ZAEM..'Rio:Groups',v)
 end end,nil) end
 end
 --     Source ZAEM     --
-end
-
 ------------------------------------------------
 -- This Source Was Developed By (Rio) @m98oh8.--
 --   This Is The Source Channel @zym_8 .   --
