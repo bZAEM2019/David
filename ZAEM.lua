@@ -108,7 +108,6 @@ io.popen("mkdir Files")
 os.execute('chmod +x Run;./Run')
 end 
 CreateConfigAuto()
-end
 local Load_ZAEM = function()
 local f = io.open("./config.lua", "r") 
 if not f then 
@@ -4750,7 +4749,7 @@ Dev_Rio(msg.chat_id_, msg.id_, 1, 'فهمنيي شلوون راحح ابوس ن�
 return false  
 end  
 if tonumber(result.sender_user_id_) == tonumber(DevId) then  
-Dev_Rio(msg.chat_id_, result.id_, 1, 'مواححح احلاا بوسةة المطوريي😻🔥💗', 1, 'html')
+Dev_Rio(msg.chat_id_, result.id_, 1, 'مواححح احلاا بوسةة المطوريي😻??💗', 1, 'html')
 return false
 end 
 local ZAEMTeam = "صارر ستاذيي 🏃🏻‍♂️♥️" 
