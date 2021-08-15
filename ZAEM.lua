@@ -69,14 +69,7 @@ end
 file:write(serialized)
 file:close()  
 end
-local CreateConfigAuto = function()
-Config = {
-DevId = DevRio:get(Server.."IdDavid"),
-TokenBot = DevRio:get(Server.."TokenDavid"),
-David = DevRio:get(Server.."TokenDavid"):match("(%d+)"),
-SudoIds = {DevRio:get(Server.."IdDavid")},
-}
-
+file = io.open("ZAEM.sh", "w")  
 file:close()  
 file = io.open("Run", "w")  
 file:write([[
